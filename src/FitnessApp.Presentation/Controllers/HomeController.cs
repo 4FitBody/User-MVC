@@ -6,23 +6,18 @@ namespace FitnessApp.Presentation.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
-    {
-        _logger = logger;
-    }
-
+    [HttpGet]
     public IActionResult Index()
     {
-        return View();
+        return base.View();
     }
 
-    public IActionResult Privacy()
+    [HttpGet]
+    public IActionResult Main()
     {
-        return View();
+        return base.View();
     }
-
+    
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
