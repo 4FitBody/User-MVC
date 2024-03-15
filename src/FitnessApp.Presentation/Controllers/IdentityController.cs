@@ -1,13 +1,10 @@
-
-using System.Net;
-using System.Security.Claims;
 using FitnessApp.Core.Dtos;
 using FitnessApp.Core.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace FinanceApp.Presentation.Controllers;
+
 public class IdentityController : Controller
 {
     private readonly UserManager<User> userManager;
@@ -28,13 +25,13 @@ public class IdentityController : Controller
     {
         await signInManager.SignOutAsync();
 
-        return RedirectToAction("Index", "Home");
+        return base.RedirectToAction("Index", "Home");
     }
 
     [HttpGet]
     public IActionResult Register()
     {
-        return View();
+        return base.View();
     }
 
     [HttpPost]
@@ -42,7 +39,7 @@ public class IdentityController : Controller
     {
         if (ModelState.IsValid == false)
         {
-            return View();
+            return base.View();
         }
 
         var user = new User
@@ -51,14 +48,12 @@ public class IdentityController : Controller
             Surname = userDto.Surname,
             Age = userDto.Age,
             Email = userDto.Email,
-
         };
 
-        var result = await userManager.CreateAsync(user, userDto.Password);
+        var result = await userManager.CreateAsync(user, userDto.Password!);
 
         if (!result.Succeeded)
         {
-
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError(error.Code, error.Description);
@@ -66,18 +61,17 @@ public class IdentityController : Controller
 
             if (ModelState.Any())
             {
-                return View();
+                return base.View();
             }
-
         }
 
-        return RedirectToAction("Login");
+        return base.RedirectToAction("Login");
     }
 
     [HttpGet]
     public IActionResult Login()
     {
-        return View();
+        return base.View();
     }
 
     [HttpPost]
@@ -85,26 +79,27 @@ public class IdentityController : Controller
     {
         if (ModelState.IsValid == false)
         {
-            return View();
+            return base.View();
         }
 
-        var user = await userManager.FindByEmailAsync(userdto.Email);
+        var user = await userManager.FindByEmailAsync(userdto.Email!);
 
         if (user is null)
         {
-            ViewData.Add("Error", "No user with this email found");
-            return View();
+            base.ViewData.Add("Error", "No user with this email found");
+
+            return base.View();
         }
 
-        var result = await signInManager.PasswordSignInAsync(user, userdto.Password, true, true);
+        var result = await signInManager.PasswordSignInAsync(user, userdto.Password!, true, true);
 
         if (result.Succeeded == false)
         {
-            ViewData.Add("Error", "Incorrect Credentials");
-            return View();
+            base.ViewData.Add("Error", "Incorrect Credentials");
+
+            return base.View();
         }
 
         return base.RedirectToAction("Home");
-
     }
 }

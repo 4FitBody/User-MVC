@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace FitnessApp.Infrastructure.Data
+namespace FitnessApp.Infrastructure.Data;
+
+public class FitnessAppDbContext : IdentityDbContext<User, IdentityRole, string>
 {
-    public class FitnessAppDbContext : IdentityDbContext<User, IdentityRole, string>
-    {
-        public FitnessAppDbContext(DbContextOptions<FitnessAppDbContext> options) : base(options) { }
-    }
+    public FitnessAppDbContext(DbContextOptions<FitnessAppDbContext> options) : base(options) { }
 }
