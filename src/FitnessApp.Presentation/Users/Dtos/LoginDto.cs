@@ -1,4 +1,4 @@
-namespace FitnessApp.Core.Dtos;
+namespace FitnessApp.Presentation.Users.Dtos;
 
 public class LoginDto
 {

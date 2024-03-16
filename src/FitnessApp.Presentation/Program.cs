@@ -1,4 +1,5 @@
-using FitnessApp.Core.Models;
+using System.Reflection;
+using FitnessApp.Core.Users.Models;
 using FitnessApp.Infrastructure.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,10 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddMediatR(configurations => {
+    configurations.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+});
 
 builder.Services.AddAuthorization();
 

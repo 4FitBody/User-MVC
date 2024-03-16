@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace FitnessApp.Core.Models;
+namespace FitnessApp.Core.Users.Models;
 
 public class User : IdentityUser
 {
