@@ -21,28 +21,28 @@
 
         <form asp-action="Register" method="post">
             <div class="input-box">
-                <input asp-for="@email" type="email" class="input-field" required>
+                <input required asp-for="@email" type="email" class="input-field" required>
                 <label asp-for="@email" class="label">Email</label>
             </div>
 
             <div class="input-box">
-                <input asp-for="@age" type="number" class="input-field" required>
-                <label asp-for="@age" class="label">Age</label>
+                <input required asp-for="@age" type="number" class="input-field" required>
+                <label asp-for="@age" min="1" class="label">Age</label>
             </div>
 
             <div class="input-box">
-                <input asp-for="@name" type="text" class="input-field" required>
+                <input required asp-for="@name" type="text" class="input-field" required>
                 <label asp-for="@name" class="label">Name</label>
                 <i class="bx bx-user icon"></i>
             </div>
 
             <div class="input-box">
-                <input asp-for="@surname" type="text" class="input-field" required>
+                <input required asp-for="@surname" type="text" class="input-field" required>
                 <label asp-for="@surname" class="label">Surname</label>
             </div>
 
             <div class="input-box">
-                <input asp-for="@password" type="password" class="input-field" autocomplete="off" required>
+                <input required id="pass" asp-for="@password" type="password" class="input-field" autocomplete="off" required>
                 <label asp-for="@password" class="label">Password</label>
                 <i class="bx bx-lock-alt icon" id="show-password"></i>
             </div>

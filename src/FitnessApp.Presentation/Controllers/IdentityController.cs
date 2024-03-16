@@ -1,5 +1,5 @@
-using FitnessApp.Core.Dtos;
-using FitnessApp.Core.Models;
+using FitnessApp.Core.Users.Models;
+using FitnessApp.Presentation.Users.Dtos;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,34 +35,23 @@ public class IdentityController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Register(RegisterDto userDto)
+    public async Task<IActionResult> Register([FromForm] RegisterDto registerDto)
     {
-        if (ModelState.IsValid == false)
-        {
-            return base.View();
-        }
-
         var user = new User
         {
-            UserName = userDto.Name,
-            Surname = userDto.Surname,
-            Age = userDto.Age,
-            Email = userDto.Email,
+            UserName = registerDto.Name,
+            Surname = registerDto.Surname,
+            Age = registerDto.Age,
+            Email = registerDto.Email,
         };
 
-        var result = await userManager.CreateAsync(user, userDto.Password!);
+        var result = await userManager.CreateAsync(user, registerDto.Password!);
 
         if (!result.Succeeded)
         {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError(error.Code, error.Description);
-            }
+            AddErrorsToModelState(result.Errors);
 
-            if (ModelState.Any())
-            {
-                return base.View();
-            }
+            return base.View("Register");
         }
 
         return base.RedirectToAction("Login");
@@ -75,31 +64,29 @@ public class IdentityController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Login(LoginDto userdto)
+    public async Task<IActionResult> Login([FromForm] LoginDto loginDto)
     {
-        if (ModelState.IsValid == false)
+        try
         {
-            return base.View();
+            var user = await this.userManager.FindByEmailAsync(loginDto.Email!);
+
+            await this.signInManager.PasswordSignInAsync(user!, loginDto.Password!, true, true);
+        }
+        catch (Exception exception)
+        {
+            base.ModelState.AddModelError(exception.GetType().Name, "Invalid Login or Password");
+
+            return base.View("Login");
         }
 
-        var user = await userManager.FindByEmailAsync(userdto.Email!);
+        return base.RedirectToAction(actionName: "Index", controllerName: "Home");
+    }
 
-        if (user is null)
+    private void AddErrorsToModelState(IEnumerable<IdentityError> errors)
+    {
+        foreach (var error in errors)
         {
-            base.ViewData.Add("Error", "No user with this email found");
-
-            return base.View();
+            base.ModelState.AddModelError(error.Code, error.Description);
         }
-
-        var result = await signInManager.PasswordSignInAsync(user, userdto.Password!, true, true);
-
-        if (result.Succeeded == false)
-        {
-            base.ViewData.Add("Error", "Incorrect Credentials");
-
-            return base.View();
-        }
-
-        return base.RedirectToAction("Home");
     }
 }
