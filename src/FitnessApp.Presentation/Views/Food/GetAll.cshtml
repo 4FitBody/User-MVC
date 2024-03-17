@@ -1,0 +1,77 @@
+@model IEnumerable<FitnessApp.Core.Foods.Food>
+
+<div>
+    <div class="dropdown">
+        <button style="color: black" class="dropbtn">Choose a category</button>
+        <div class="dropdown-content">
+            <a href="/Food/GetbyCategory/Salad">Salad</a>
+            <a href="/Food/GetbyCategory/Meat">Meat</a>
+            <a href="/Food/GetbyCategory/Chicken">Chicken</a>
+            <a href="/Food/GetbyCategory/Cake">Cake</a>
+        </div>
+    </div>
+</div>
+<br>
+
+<br>
+
+<div class="container">
+    <div class="row">
+        @foreach (var f in Model)
+        {
+            <div class="col-4">
+                <p>@f.Title</p>
+            </div>
+        }
+    </div>
+</div>
+
+
+<style>
+    .col-4 {
+        width: 33.33%;
+        float: left;
+        box-sizing: border-box;
+        padding: 0 15px;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: black;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.5);
+        z-index: 1;
+        overflow-y: auto;
+        max-height: 200px;
+        column-count: 2;
+        column-gap: 20px;
+        padding: 10px;
+    }
+
+    .dropdown-content a {
+        color: black;
+        padding: 10px 0;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown-content a:hover {
+        background-color: black;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .container {
+        margin-top: 20px; 
+    }
+
+</style>
+

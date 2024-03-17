@@ -8,8 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 
+
+var infrastructureAssembly = typeof(FitnessAppDbContext).Assembly;
 builder.Services.AddMediatR(configurations => {
-    configurations.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+    configurations.RegisterServicesFromAssembly(infrastructureAssembly);
 });
 
 builder.Services.AddAuthorization();
