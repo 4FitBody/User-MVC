@@ -10,7 +10,7 @@ public class GetbyCategoryHandler : IRequestHandler<GetbyCategoryCommand, IEnume
     public async Task<IEnumerable<Food>> Handle(GetbyCategoryCommand request, CancellationToken cancellationToken)
     {
 
-        string APIKey = "774551c5f7844644b79c196b8adf9cb8";
+        string APIKey = "d6c43be27aa74da5a870679ef210718e";
 
         string apiUrl = $"https://api.spoonacular.com/recipes/complexSearch?query={request.FoodName}&apiKey=" + APIKey;
 

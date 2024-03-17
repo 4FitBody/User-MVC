@@ -1,11 +1,12 @@
 namespace FitnessApp.Presentation.Controllers;
 
 using FitnessApp.Infrastructure.Food.Handlers.GetbyCategory;
+using FitnessApp.Infrastructure.Food.Services;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Authorize]
+// [Authorize]
 public class FoodController : Controller
 {
     private readonly ISender sender;
@@ -18,8 +19,13 @@ public class FoodController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var foods = await this.sender.Send(new GetbyCategoryCommand());   
-        return View(foods);
+        var foods = await this.sender.Send(new GetbyCategoryCommand());
+        Dictionary<string, string> imageNames = new Dictionary<string, string>();
+        foreach (var r in foods)
+        {
+            imageNames.Add(r.Title, await GetImageforFood.GetImage(r.Title));
+        }
+        return View(imageNames);
     }
 
     [HttpGet]
@@ -27,6 +33,11 @@ public class FoodController : Controller
     public async Task<IActionResult> GetbyCategory(string foodCategory)
     {
         var foods = await this.sender.Send(new GetbyCategoryCommand($"{foodCategory}"));
-        return base.View(foods);
+        Dictionary<string, string> imageNames = new Dictionary<string, string>();
+        foreach (var r in foods)
+        {
+            imageNames.Add(r.Title, await GetImageforFood.GetImage(r.Title));
+        }
+        return base.View(imageNames);
     }
 }
