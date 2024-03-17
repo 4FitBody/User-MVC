@@ -1,33 +1,30 @@
 namespace FitnessApp.Infrastructure.Food.Handlers;
 
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using FitnessApp.Core.Foods;
 using FitnessApp.Infrastructure.Food.Queries;
+using FitnessApp.Infrastructure.Food.Repositories.Base;
 using MediatR;
 
 public class GetByIdHandler : IRequestHandler<GetByIdQuery, Food>
 {
+    private readonly IFoodRepository repository;
+
+    public GetByIdHandler(IFoodRepository repository){
+        this.repository = repository;
+    }
+
     public async Task<Food> Handle(GetByIdQuery request, CancellationToken cancellationToken)
     {
-        string APIKey = "d6c43be27aa74da5a870679ef210718e";
+        var food = await repository.GetById(request.Id);
 
-        string apiUrl = $"https://api.spoonacular.com/recipes/{request.Id}/summary?apiKey=" + APIKey;
-        using var client = new HttpClient();
-        var food = new Food();
-        HttpResponseMessage response = await client.GetAsync(apiUrl);
+        if(food is null){
+            throw new ArgumentNullException("No food by this Id");
+        }
 
-        if (response.IsSuccessStatusCode)
-        {
-            string json = await response.Content.ReadAsStringAsync();
-            food = JsonSerializer.Deserialize<Food>(json);
-        }
-        else
-        {
-            Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
-        }
         food.Image = request.ImageUrl;
+
         return food;
     }
 }

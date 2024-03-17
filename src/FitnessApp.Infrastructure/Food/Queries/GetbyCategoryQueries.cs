@@ -5,7 +5,6 @@ using MediatR;
 
 public class GetbyCategoryQueries : IRequest<IEnumerable<Food>>
 {
-
     public string? FoodName { get; set; }
 
     public GetbyCategoryQueries(string? foodName)
@@ -14,5 +13,4 @@ public class GetbyCategoryQueries : IRequest<IEnumerable<Food>>
     }
 
     public GetbyCategoryQueries() { }
-    
 }
