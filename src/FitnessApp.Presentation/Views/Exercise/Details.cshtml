@@ -1,0 +1,29 @@
+@model Exercise
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1 style="text-align: center;">@ViewData["Title"]</h1>
+
+<br>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <div style="color: black; text-align: center;"><b>@Model.Name</b></div>
+                    <div style="color: black">Level: @Model.Difficulty.ToString()</div>
+                    <div style="color: black">Muscle: @Model.Muscle.ToString()</div>
+                    <div style="color: black">Exercise Type: @Model.Type.ToString()</div>
+                    <div style="color: black">Equipment: @Model.EquipmentName</div>
+                    <br>
+                    <br>
+                    <div style="color: black">Instructions: @Model.Instructions</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,10 +1,12 @@
+namespace FinanceApp.Presentation.Controllers;
+
 using FitnessApp.Core.Users.Models;
 using FitnessApp.Presentation.Users.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FinanceApp.Presentation.Controllers;
-
+[AllowAnonymous]
 public class IdentityController : Controller
 {
     private readonly UserManager<User> userManager;
@@ -21,11 +23,12 @@ public class IdentityController : Controller
     }
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> Logout()
     {
         await signInManager.SignOutAsync();
 
-        return base.RedirectToAction("Index", "Home");
+        return base.RedirectToAction("Main", "Home");
     }
 
     [HttpGet]

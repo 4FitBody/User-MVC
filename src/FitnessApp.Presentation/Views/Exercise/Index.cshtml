@@ -1,0 +1,32 @@
+@model IEnumerable<Exercise>
+
+@{
+    ViewData["Title"] = "All exercises";
+}
+
+<h1 style="text-align: center;">@ViewData["Title"]</h1>
+
+<br>
+<br>
+
+<div class="container">
+    <div class="row">
+        @foreach (var exercise in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <a asp-controller="Exercise" asp-action="Details" asp-route-name="@exercise.Name">
+                        <div class="card-body">
+                            <div style="color: Green; text-align: center;"><b>@exercise.Name</b></div>
+                            <br>
+                            <div style="color: black"><b>Level:</b> @exercise.Difficulty.ToString()</div>
+                            <div style="color: black"><b>Muscle:</b> @exercise.Muscle.ToString()</div>
+                            <div style="color: black"><b>Exercise Type:</b> @exercise.Type.ToString()</div>
+                            <div style="color: black"><b>Equipment:</b> @exercise.EquipmentName</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
