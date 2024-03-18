@@ -22,7 +22,6 @@ public class IdentityController : Controller
         this.signInManager = signInManager;
     }
 
-    [HttpPost]
     [Authorize]
     public async Task<IActionResult> Logout()
     {

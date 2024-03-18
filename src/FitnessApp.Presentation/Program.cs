@@ -1,6 +1,8 @@
 using System.Reflection;
+using FitnessApp.Core.Exercises.Repositories;
 using FitnessApp.Core.Users.Models;
 using FitnessApp.Infrastructure.Data;
+using FitnessApp.Infrastructure.Exercises.Repositories;
 using FitnessApp.Infrastructure.Food.Repositories;
 using FitnessApp.Infrastructure.Food.Repositories.Base;
 using Microsoft.AspNetCore.Identity;
@@ -14,6 +16,15 @@ var infrastructureAssembly = typeof(FitnessAppDbContext).Assembly;
 
 builder.Services.AddMediatR(configurations => {
     configurations.RegisterServicesFromAssembly(infrastructureAssembly);
+});
+
+builder.Services.AddSingleton<IExerciseRepository>(options => 
+{
+    var apiKey = builder.Configuration.GetSection("apiKey").Get<string>();
+
+    var host = "exercises-by-api-ninjas.p.rapidapi.com";
+    
+    return new ExerciseJsonRepository(apiKey!, host);
 });
 
 builder.Services.AddScoped<IFoodRepository>(provider=>{
