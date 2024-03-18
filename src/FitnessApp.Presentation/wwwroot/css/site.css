@@ -61,6 +61,10 @@ nav > div {
   color: white !important;
 }
 
+.main-info {
+  background-color: rgba(0, 0, 0, 0.527);
+}
+
 .center {
   font-size: 50px;
   text-align: center;

@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@{
+    bool isAuthenticated = base.User.Identity.IsAuthenticated;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,19 +15,48 @@
 <body>
     <div class="background-image">
     <div class="content-container">
-        <header>
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm">
+        <header style="background-color: rgba(0, 0, 0, 0.4) !important">
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm" style="background-color: rgba(0, 0, 0, 0.4) !important">
                     <div class="container-fluid">
-                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">FitnessApp</a>
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Just4Fit</a>
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                             <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                                </li>
+                                @if (isAuthenticated)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-controller="Food" asp-action="GetAll">Food</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-controller="Exercise" asp-action="Index">Exercise</a>
+                                    </li>
+
+                                    <li style="margin-left: 1050px;" class="nav-item">
+                                        <a class="nav-link" asp-area="">@ViewData["Username"]</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" method="post" asp-controller="Identity" asp-action="Logout">Logout</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-controller="Identity" asp-action="Login">Login</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" asp-area="" asp-controller="Identity" asp-action="Register">Register</a>
+                                    </li>
+                                }
                             </ul>
                         </div>
                     </div>

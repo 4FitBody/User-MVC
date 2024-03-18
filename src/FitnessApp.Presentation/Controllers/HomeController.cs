@@ -1,12 +1,15 @@
-﻿using System.Diagnostics;
+﻿namespace FitnessApp.Presentation.Controllers;
+
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using FitnessApp.Presentation.Models;
+using Microsoft.AspNetCore.Authorization;
 
-namespace FitnessApp.Presentation.Controllers;
-
+[AllowAnonymous]
 public class HomeController : Controller
 {
     [HttpGet]
+    [Authorize]
     public IActionResult Index()
     {
         return base.View();
