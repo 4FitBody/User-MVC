@@ -23,4 +23,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="PexelsDotNetSDK" Version="1.0.11" />
+  </ItemGroup>
 </Project>

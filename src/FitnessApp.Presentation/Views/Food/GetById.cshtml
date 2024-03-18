@@ -1,0 +1,31 @@
+@model FitnessApp.Core.Foods.Food
+@{
+    ViewData["Title"] = "Food Details";
+}
+
+<link rel='stylesheet' href='~/css/food.css'>
+<link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<h1 style="text-align: center;">@ViewData["Title"]</h1>
+
+<div class="card card-food">
+    <div class="image-container">
+
+        <img src="@Model.Image" class="card-img-top-food" alt="FoodImage">
+
+    </div>
+    <div class="content">
+        <h2 style="color: black;">@Model.Title</h2>
+
+        <div style="color: black;" class="summary">
+            @{
+                // Remove <a> tags from Model.Description
+                string descriptionWithoutAnchorTags = System.Text.RegularExpressions.Regex.Replace(Model.Description, @"<a\b[^>]*>(.*?)</a>", "");
+            }
+            @Html.Raw(descriptionWithoutAnchorTags)
+        </div>
+        
+    </div>
+</div>

@@ -1,0 +1,45 @@
+@model List<FitnessApp.Core.Foods.Food>
+@{
+    ViewData["Title"] = "All Food";
+}
+
+<link rel='stylesheet' href='~/css/food.css'>
+<link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<h1 style="text-align: center;">@ViewData["Title"]</h1>
+
+<div>
+    <div class="dropdown">
+        <button style="color: black" class="dropbtn">Choose a category</button>
+        <div class="dropdown-content">
+            <a asp-action="GetbyCategory" asp-route-foodCategory="salad">Salad</a>
+            <a hasp-action="GetbyCategory" asp-route-foodCategory="meat">Meat</a>
+            <a asp-action="GetbyCategory" asp-route-foodCategory="breakfast">Breakfast</a>
+            <a asp-action="GetbyCategory" asp-route-foodCategory="cake">Cake</a>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+
+<div class="container">
+    <div class="row">
+        @foreach (var pair in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+
+                    <img src="@pair.Image" class="card-img-top" alt="BookCover">
+
+                    <div class="card-body">
+                        <button type="button" class="button-link" onclick="location.href='@Url.Action("GetById", new { id = pair.Id, imageUrl = pair.Image })'">@pair.Title</button>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+</div>
