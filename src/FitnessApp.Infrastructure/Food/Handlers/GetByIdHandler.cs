@@ -17,6 +17,11 @@ public class GetByIdHandler : IRequestHandler<GetByIdQuery, Food>
 
     public async Task<Food> Handle(GetByIdQuery request, CancellationToken cancellationToken)
     {
+        if (request.Id is null)
+        {
+            throw new ArgumentNullException(request.Id.ToString());
+        }
+
         var food = await repository.GetById(request.Id);
 
         if(food is null){

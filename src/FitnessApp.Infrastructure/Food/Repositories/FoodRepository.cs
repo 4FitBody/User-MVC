@@ -13,7 +13,7 @@ public class FoodRepository : IFoodRepository
         this.ApiKey = apiKey;
     }
 
-    public async Task<IEnumerable<Food>> GetByCategory(string foodName)
+    public async Task<IEnumerable<Food>> GetByCategory(string? foodName)
     {
         string apiUrl = $"https://api.spoonacular.com/recipes/complexSearch?query={foodName}&apiKey=" + ApiKey;
 
@@ -38,7 +38,7 @@ public class FoodRepository : IFoodRepository
         return recipes.Foods;
     }
 
-    public async Task<Food> GetById(int id)
+    public async Task<Food> GetById(int? id)
     {
         string apiUrl = $"https://api.spoonacular.com/recipes/{id}/summary?apiKey=" + ApiKey;
 

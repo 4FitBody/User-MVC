@@ -20,6 +20,11 @@ public class GetbyCategoryHandler : IRequestHandler<GetbyCategoryQueries, IEnume
 
     public async Task<IEnumerable<Food>> Handle(GetbyCategoryQueries request, CancellationToken cancellationToken)
     {
+        if (request.FoodName is null)
+        {
+            throw new ArgumentNullException(request.FoodName);
+        }
+
         var recipes = await repository.GetByCategory(request.FoodName);
 
         foreach (var r in recipes)
