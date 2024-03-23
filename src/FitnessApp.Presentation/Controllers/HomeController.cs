@@ -4,6 +4,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using FitnessApp.Presentation.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 
 [AllowAnonymous]
 public class HomeController : Controller
@@ -11,12 +12,6 @@ public class HomeController : Controller
     [HttpGet]
     [Authorize]
     public IActionResult Index()
-    {
-        return base.View();
-    }
-
-    [HttpGet]
-    public IActionResult Main()
     {
         return base.View();
     }

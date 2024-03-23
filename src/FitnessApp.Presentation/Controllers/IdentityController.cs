@@ -27,7 +27,7 @@ public class IdentityController : Controller
     {
         await signInManager.SignOutAsync();
 
-        return base.RedirectToAction("Main", "Home");
+        return base.RedirectToAction("Index", "Home");
     }
 
     [HttpGet]
