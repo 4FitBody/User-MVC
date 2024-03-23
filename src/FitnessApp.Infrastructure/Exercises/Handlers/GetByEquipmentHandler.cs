@@ -15,7 +15,7 @@ public class GetByEquipmentHandler : IRequestHandler<GetByEquipmentQuery, IEnume
     {
         ArgumentNullException.ThrowIfNull(request.Equipment);
 
-        var exercises = await this.exerciseRepository.GetByName(request.Equipment);
+        var exercises = await this.exerciseRepository.GetByEquipment(request.Equipment);
 
         if (exercises is null)
         {

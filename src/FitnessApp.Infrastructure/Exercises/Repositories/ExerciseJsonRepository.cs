@@ -52,15 +52,15 @@ public class ExerciseJsonRepository : IExerciseRepository
         return exercises;
     }
 
-    public async Task<IEnumerable<Exercise>?> GetById(string? id)
+    public async Task<Exercise>? GetById(string? id)
     {
         var uri = $"https://exercisedb.p.rapidapi.com/exercises/exercise/{id}";
 
         var request = this.CreateRequest(HttpMethod.Get, uri);
 
-        var exercises = await this.GetExercises(request);
+        var exercise = await this.GetExercise(request)!;
 
-        return exercises;
+        return exercise;
     }
 
     public async Task<IEnumerable<Exercise>?> GetByName(string? name)
@@ -115,5 +115,21 @@ public class ExerciseJsonRepository : IExerciseRepository
         }
 
         return exercises;
+    }
+
+    private async Task<Exercise>? GetExercise(HttpRequestMessage request)
+    {
+        var exercise = new Exercise();
+
+        using (var response = await client.SendAsync(request))
+        {
+            response.EnsureSuccessStatusCode();
+
+            var body = await response.Content.ReadAsStringAsync();
+
+            exercise = JsonConvert.DeserializeObject<Exercise>(body);
+        }
+
+        return exercise!;
     }
 }

@@ -5,23 +5,23 @@ using FitnessApp.Core.Exercises.Repositories;
 using FitnessApp.Infrastructure.Exercises.Queries;
 using MediatR;
 
-public class GetByIdHandler : IRequestHandler<GetByIdQuery, IEnumerable<Exercise>?>
+public class GetByIdHandler : IRequestHandler<GetByIdQuery, Exercise?>
 {
     private readonly IExerciseRepository exerciseRepository;
 
     public GetByIdHandler(IExerciseRepository exerciseRepository) => this.exerciseRepository = exerciseRepository;
 
-    public async Task<IEnumerable<Exercise>?> Handle(GetByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Exercise?> Handle(GetByIdQuery request, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(request.Id);
 
-        var exercises = await this.exerciseRepository.GetByName(request.Id);
+        var exercise = await this.exerciseRepository.GetById(request.Id)!;
 
-        if (exercises is null)
+        if (exercise is null)
         {
-            return Enumerable.Empty<Exercise>();
+            return new Exercise();
         }
 
-        return exercises;
+        return exercise;
     }
 }

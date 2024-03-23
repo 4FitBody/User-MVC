@@ -59,7 +59,7 @@ body {
 header,
 nav,
 ul,
-li,
+ul > li,
 a {
   background-color: rgb(239, 239, 239) !important;
   color: black !important;

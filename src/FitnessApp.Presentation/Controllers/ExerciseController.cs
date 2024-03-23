@@ -1,6 +1,5 @@
 namespace FitnessApp.Presentation.Controllers;
 
-using FitnessApp.Core.Exercises.Models;
 using FitnessApp.Infrastructure.Exercises.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -14,6 +13,7 @@ public class ExerciseController : Controller
     public ExerciseController(ISender sender) => this.sender = sender;
 
     [ActionName("Index")]
+    [HttpGet]
     public async Task<IActionResult> GetAll()
     {
         var query = new GetAllQuery();
@@ -23,6 +23,7 @@ public class ExerciseController : Controller
         return base.View(model: exercises);
     }
 
+    [HttpGet]
     public async Task<IActionResult> GetByName(string name)
     {
         var query = new GetByNameQuery(name);
@@ -31,15 +32,14 @@ public class ExerciseController : Controller
 
         return base.View(model: exercises);
     }
-    
+
+    [HttpGet]
     [Route("[controller]/[action]/{id}")]
     public async Task<IActionResult> Details(string id)
     {
         var query = new GetByIdQuery(id);
 
-        var exercises = await this.sender.Send(query);
-
-        var exercise = exercises!.FirstOrDefault();
+        var exercise = await this.sender.Send(query);
 
         return base.View(model: exercise);
     }

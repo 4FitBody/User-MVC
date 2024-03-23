@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using FitnessApp.Core.Exercises.Models;
 using MediatR;
 
-public class GetByIdQuery : IRequest<IEnumerable<Exercise>?>
+public class GetByIdQuery : IRequest<Exercise?>
 {
     public string? Id { get; set; }
 

@@ -15,7 +15,7 @@ public class GetByTargetHandler : IRequestHandler<GetByTargetQuery, IEnumerable<
     {
         ArgumentNullException.ThrowIfNull(request.Target);
 
-        var exercises = await this.exerciseRepository.GetByName(request.Target);
+        var exercises = await this.exerciseRepository.GetByTarget(request.Target);
 
         if (exercises is null)
         {
