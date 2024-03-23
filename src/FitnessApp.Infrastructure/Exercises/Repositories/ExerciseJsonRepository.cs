@@ -21,7 +21,7 @@ public class ExerciseJsonRepository : IExerciseRepository
 
     public async Task<IEnumerable<Exercise>?> GetAll()
     {
-        var uri = "https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises";
+        var uri = "https://exercisedb.p.rapidapi.com/exercises?limit=2000";
 
         var request = this.CreateRequest(HttpMethod.Get, uri);
 
@@ -30,11 +30,9 @@ public class ExerciseJsonRepository : IExerciseRepository
         return exercises;
     }
 
-    public async Task<IEnumerable<Exercise>?> GetByDifficulty(Difficulty? difficulty)
+    public async Task<IEnumerable<Exercise>?> GetByBodyPart(string? bodyPart)
     {
-        var exerciseDifficulty = difficulty.ToString()!.ToLower();
-
-        var uri = $"https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises?difficulty={exerciseDifficulty}";
+        var uri = $"https://exercisedb.p.rapidapi.com/exercises/bodyPart/{bodyPart}?limit=2000";
 
         var request = this.CreateRequest(HttpMethod.Get, uri);
 
@@ -43,11 +41,20 @@ public class ExerciseJsonRepository : IExerciseRepository
         return exercises;
     }
 
-    public async Task<IEnumerable<Exercise>?> GetByMuscleType(MuscleType? muscleType)
+    public async Task<IEnumerable<Exercise>?> GetByEquipment(string? equipment)
     {
-        var exerciseMuscleType = muscleType.ToString()!.ToLower();
+        var uri = $"https://exercisedb.p.rapidapi.com/exercises/equipment/{equipment}?limit=2000";
 
-        var uri = $"https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises?muscle={exerciseMuscleType}";
+        var request = this.CreateRequest(HttpMethod.Get, uri);
+
+        var exercises = await this.GetExercises(request);
+
+        return exercises;
+    }
+
+    public async Task<IEnumerable<Exercise>?> GetById(string? id)
+    {
+        var uri = $"https://exercisedb.p.rapidapi.com/exercises/exercise/{id}";
 
         var request = this.CreateRequest(HttpMethod.Get, uri);
 
@@ -58,9 +65,7 @@ public class ExerciseJsonRepository : IExerciseRepository
 
     public async Task<IEnumerable<Exercise>?> GetByName(string? name)
     {
-        var exerciseName = name!.ToString().ToLower();
-
-        var uri = $"https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises?name={exerciseName}";
+        var uri = $"https://exercisedb.p.rapidapi.com/exercises/name/{name}?limit=2000";
 
         var request = this.CreateRequest(HttpMethod.Get, uri);
 
@@ -69,11 +74,9 @@ public class ExerciseJsonRepository : IExerciseRepository
         return exercises;
     }
 
-    public async Task<IEnumerable<Exercise>?> GetByType(ExerciseType? type)
+    public async Task<IEnumerable<Exercise>?> GetByTarget(string? target)
     {
-        var exerciseType = type.ToString()!.ToLower();
-
-        var uri = $"https://exercises-by-api-ninjas.p.rapidapi.com/v1/exercises?difficulty={exerciseType}";
+        var uri = $"https://exercisedb.p.rapidapi.com/exercises/target/{target}?limit=2000";
 
         var request = this.CreateRequest(HttpMethod.Get, uri);
 

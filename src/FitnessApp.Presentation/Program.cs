@@ -24,7 +24,7 @@ builder.Services.AddSingleton<IExerciseRepository>(options =>
 
     var apiKey = builder.Configuration.GetSection(keyName).Get<string>();
 
-    var host = "exercises-by-api-ninjas.p.rapidapi.com";
+    var host = "exercisedb.p.rapidapi.com";
 
     return new ExerciseJsonRepository(apiKey!, host);
 });

@@ -23,24 +23,6 @@ public class ExerciseController : Controller
         return base.View(model: exercises);
     }
 
-    public async Task<IActionResult> GetByDifficulty(Difficulty difficulty)
-    {
-        var query = new GetByDifficultyQuery(difficulty);
-
-        var exercises = await this.sender.Send(query);
-
-        return base.View(model: exercises);
-    }
-
-    public async Task<IActionResult> GetByMuscleType(MuscleType muscleType)
-    {
-        var query = new GetByMuscleTypeQuery(muscleType);
-
-        var exercises = await this.sender.Send(query);
-
-        return base.View(model: exercises);
-    }
-
     public async Task<IActionResult> GetByName(string name)
     {
         var query = new GetByNameQuery(name);
@@ -49,24 +31,15 @@ public class ExerciseController : Controller
 
         return base.View(model: exercises);
     }
-
-    public async Task<IActionResult> GetByType(ExerciseType type)
-    {
-        var query = new GetByTypeQuery(type);
-
-        var exercises = await this.sender.Send(query);
-
-        return base.View(model: exercises);
-    }
     
-    [Route("[controller]/[action]/{name}")]
-    public async Task<IActionResult> Details(string name)
+    [Route("[controller]/[action]/{id}")]
+    public async Task<IActionResult> Details(string id)
     {
-        var query = new GetAllQuery();
+        var query = new GetByIdQuery(id);
 
         var exercises = await this.sender.Send(query);
 
-        var exercise = exercises!.FirstOrDefault(e => e.Name == name);
+        var exercise = exercises!.FirstOrDefault();
 
         return base.View(model: exercise);
     }
