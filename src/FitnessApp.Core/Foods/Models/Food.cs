@@ -16,4 +16,5 @@ public class Food
     [JsonPropertyName("summary")]
     public string? Description { get; set; }
 
+    public string? VideoId { get; set; }
 }

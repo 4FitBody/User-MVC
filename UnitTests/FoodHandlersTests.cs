@@ -13,7 +13,7 @@ public class FoodHandlersTests
 
         var command = new GetByIdQuery(id, "url");
 
-        var handler = new GetByIdHandler(null);
+        var handler = new GetByIdHandler(null,null);
 
         Assert.ThrowsAsync<ArgumentNullException>(async () => await handler.Handle(command, CancellationToken.None));
     }

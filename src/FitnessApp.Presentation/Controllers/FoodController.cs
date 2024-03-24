@@ -27,7 +27,7 @@ public class FoodController : Controller
     public async Task<IActionResult> GetById(int id, string imageUrl)
     {
         var foods = await this.sender.Send(new GetByIdQuery(id, imageUrl));
-
+        ViewBag.VideoId = foods.VideoId;
         return View(foods);
     }
 
@@ -36,7 +36,7 @@ public class FoodController : Controller
     public async Task<IActionResult> GetbyCategory(string foodCategory)
     {
         var foods = await this.sender.Send(new GetbyCategoryQueries($"{foodCategory}"));
-        
+
         return base.View(foods);
     }
 }

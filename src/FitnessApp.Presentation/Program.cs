@@ -1,5 +1,6 @@
 using System.Reflection;
 using FitnessApp.Core.Exercises.Repositories;
+using FitnessApp.Core.Foods.Repositories;
 using FitnessApp.Core.Users.Models;
 using FitnessApp.Infrastructure.Data;
 using FitnessApp.Infrastructure.Exercises.Repositories;
@@ -33,6 +34,14 @@ builder.Services.AddScoped<IFoodRepository>(provider=>{
     var APIkey = builder.Configuration.GetSection(key).Get<string>();
 
     return new FoodRepository(APIkey);
+});
+
+builder.Services.AddScoped<IVideoRepository>(provider=>{
+    const string key = "FoodAPIKey";
+
+    var APIkey = builder.Configuration.GetSection(key).Get<string>();
+
+    return new VideoRepository(APIkey);
 });
 
 builder.Services.AddScoped<IImageRepository>(provider=>{

@@ -2,6 +2,7 @@ namespace FitnessApp.Infrastructure.Food.Repositories;
 
 using System.Text.Json;
 using FitnessApp.Core.Foods;
+using FitnessApp.Core.Foods.Models;
 using FitnessApp.Infrastructure.Food.Repositories.Base;
 
 public class FoodRepository : IFoodRepository
@@ -15,7 +16,7 @@ public class FoodRepository : IFoodRepository
 
     public async Task<IEnumerable<Food>> GetByCategory(string? foodName)
     {
-        string apiUrl = $"https://api.spoonacular.com/recipes/complexSearch?query={foodName}&apiKey=" + ApiKey;
+        string apiUrl = $"https://api.spoonacular.com/recipes/complexSearch?number=30&query={foodName}&apiKey=" + ApiKey;
 
         using var client = new HttpClient();
 
@@ -51,7 +52,7 @@ public class FoodRepository : IFoodRepository
         if (response.IsSuccessStatusCode)
         {
             string json = await response.Content.ReadAsStringAsync();
-            
+
             food = JsonSerializer.Deserialize<Food>(json);
         }
 
@@ -59,7 +60,7 @@ public class FoodRepository : IFoodRepository
         {
             Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
         }
-
+        
         return food;
     }
 }
