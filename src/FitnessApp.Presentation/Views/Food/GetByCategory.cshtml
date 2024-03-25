@@ -1,31 +1,75 @@
 @model List<FitnessApp.Core.Foods.Food>
+
 @{
     ViewData["Title"] = "Food by Category";
+    var foodParams = new FitnessApp.Core.Foods.Models.FilterFood();
 }
+
+<h1 style="text-align: center;">@ViewData["Title"]</h1>
 
 <link rel='stylesheet' href='~/css/food.css'>
 <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
 <link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap'>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
-<h1 style="text-align: center;">@ViewData["Title"]</h1>
-
-<div class="container">
-    <div class="row">
-        @foreach (var pair in Model)
+<div class="container-category">
+    <div class="left-column">
+        @if (Model is not null)
         {
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
+            @foreach (var pair in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
 
-                    <img src="@pair.Image" class="card-img-top" alt="BookCover">
+                        <img src="@pair.Image" class="card-img-top" alt="FoodCover">
 
-                    <div class="card-body">
-                        <button type="button" class="button-link"
-                            onclick="location.href='@Url.Action("GetById", new { id = pair.Id, imageUrl = pair.Image })'">@pair.Title</button>
+                        <div class="card-body">
+                            <button type="button" class="button-link"
+                                onclick="location.href='@Url.Action("GetById", new { id = pair.Id, imageUrl = pair.Image })'">@pair.Title</button>
+                        </div>
+
                     </div>
-                    
                 </div>
-            </div>
+            }
         }
     </div>
+
+    <div class="right-column">
+        
+        <form action="GetByCategory" method="post">
+
+            <label asp-for="@foodParams.FoodType">Type: </label>
+            <input type="text" asp-for="@foodParams.FoodType" required>
+            <br>
+
+            <label asp-for="@foodParams.Diet">Diet: </label>
+            <input type="text" asp-for="@foodParams.Diet">
+            <br>
+
+            <label asp-for="@foodParams.Intolerances">Intolerances: </label>
+            <input type="text" asp-for="@foodParams.Intolerances">
+            <br>
+           
+            <label asp-for="@foodParams.MinProtein">Minimum Protein: </label>
+            <input type="number" value="10" min="10" asp-for="@foodParams.MinProtein">
+            <br>
+            
+            <label asp-for="@foodParams.MaxProtein">Maximum Protein: </label>
+            <input type="number" value="100" max="100" asp-for="@foodParams.MaxProtein">
+            <br>
+           
+            <label asp-for="@foodParams.MinCalories">Minimum Calories: </label>
+            <input type="number" value="50" min="50" asp-for="@foodParams.MinCalories">
+            <br>
+            
+            <label asp-for="@foodParams.MaxCalories">Maximum Calories: </label>
+            <input type="number" value="800" max="800" asp-for="@foodParams.MaxCalories">
+            <br>
+
+            <input type="submit" value="Search">
+
+        </form>
+
+    </div>
+
 </div>

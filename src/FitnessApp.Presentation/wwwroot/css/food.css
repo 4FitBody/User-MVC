@@ -97,3 +97,10 @@ h2 {
 .summary {
     margin-top: 10px;
 }
+
+.container-category {
+    display: grid;
+    grid-template-columns: 70% 30%; 
+    grid-gap: 20px; 
+}
+
