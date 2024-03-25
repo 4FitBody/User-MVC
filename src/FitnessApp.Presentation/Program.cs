@@ -1,4 +1,3 @@
-using System.Reflection;
 using FitnessApp.Core.Exercises.Repositories;
 using FitnessApp.Core.Foods.Repositories;
 using FitnessApp.Core.Users.Models;
@@ -15,28 +14,33 @@ builder.Services.AddControllersWithViews();
 
 var infrastructureAssembly = typeof(FitnessAppDbContext).Assembly;
 
-builder.Services.AddMediatR(configurations => {
+builder.Services.AddMediatR(configurations =>
+{
     configurations.RegisterServicesFromAssembly(infrastructureAssembly);
 });
 
-builder.Services.AddSingleton<IExerciseRepository>(options => 
+builder.Services.AddSingleton<IExerciseRepository>(options =>
 {
-    var apiKey = builder.Configuration.GetSection("apiKey").Get<string>();
+    var keyName = "ExerciseAPIKey";
+
+    var apiKey = builder.Configuration.GetSection(keyName).Get<string>();
 
     var host = "exercises-by-api-ninjas.p.rapidapi.com";
-    
+
     return new ExerciseJsonRepository(apiKey!, host);
 });
 
-builder.Services.AddScoped<IFoodRepository>(provider=>{
+builder.Services.AddScoped<IFoodRepository>(provider =>
+{
     const string key = "FoodAPIKey";
 
     var APIkey = builder.Configuration.GetSection(key).Get<string>();
 
-    return new FoodRepository(APIkey);
+    return new FoodRepository(APIkey!);
 });
 
-builder.Services.AddScoped<IVideoRepository>(provider=>{
+builder.Services.AddScoped<IVideoRepository>(provider=>
+{
     const string key = "FoodAPIKey";
 
     var APIkey = builder.Configuration.GetSection(key).Get<string>();
@@ -44,12 +48,13 @@ builder.Services.AddScoped<IVideoRepository>(provider=>{
     return new VideoRepository(APIkey);
 });
 
-builder.Services.AddScoped<IImageRepository>(provider=>{
+builder.Services.AddScoped<IImageRepository>(provider =>
+{
     const string key = "ImageAPIKey";
 
     var APIkey = builder.Configuration.GetSection(key).Get<string>();
 
-    return new ImageRepository(APIkey);
+    return new ImageRepository(APIkey!);
 });
 
 builder.Services.AddAuthorization();
@@ -58,7 +63,7 @@ var connectionString = builder.Configuration.GetConnectionString("FitnessDb");
 
 builder.Services.AddDbContext<FitnessAppDbContext>(dbContextOptionsBuilder =>
 {
-    dbContextOptionsBuilder.UseNpgsql(connectionString, o => 
+    dbContextOptionsBuilder.UseNpgsql(connectionString, o =>
     {
         o.MigrationsAssembly("FitnessApp.Presentation");
     });
@@ -91,6 +96,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Main}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
