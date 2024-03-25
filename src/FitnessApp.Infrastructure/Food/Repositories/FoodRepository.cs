@@ -16,7 +16,27 @@ public class FoodRepository : IFoodRepository
 
     public async Task<IEnumerable<Food>> GetByCategory(FilterFood? FoodParams)
     {
-        string apiUrl = @$"https://api.spoonacular.com/recipes/complexSearch?diet={FoodParams.Diet}&intolerances={FoodParams.Intolerances}&query={FoodParams.FoodType}&minProtein={FoodParams.MinProtein}&maxProtein={FoodParams.MaxProtein}&minCalories={FoodParams.MinCalories}&maxCalories={FoodParams.MaxCalories}&apiKey=" + ApiKey;
+        string apiUrl = string.Empty;
+
+        if (FoodParams.Diet.Contains("Omnivore") && string.IsNullOrWhiteSpace(FoodParams.Intolerances))
+        {
+            apiUrl = @$"https://api.spoonacular.com/recipes/complexSearch?query={FoodParams.FoodType}&minProtein={FoodParams.MinProtein}&maxProtein={FoodParams.MaxProtein}&minCalories={FoodParams.MinCalories}&maxCalories={FoodParams.MaxCalories}&apiKey=" + ApiKey;
+        }
+
+        else if (FoodParams.Diet.Contains("Omnivore"))
+        {
+            apiUrl = @$"https://api.spoonacular.com/recipes/complexSearch?intolerances={FoodParams.Intolerances}&query={FoodParams.FoodType}&minProtein={FoodParams.MinProtein}&maxProtein={FoodParams.MaxProtein}&minCalories={FoodParams.MinCalories}&maxCalories={FoodParams.MaxCalories}&apiKey=" + ApiKey;
+        }
+
+        else if (string.IsNullOrWhiteSpace(FoodParams.Intolerances))
+        {
+            apiUrl = @$"https://api.spoonacular.com/recipes/complexSearch?diet={FoodParams.Diet}&query={FoodParams.FoodType}&minProtein={FoodParams.MinProtein}&maxProtein={FoodParams.MaxProtein}&minCalories={FoodParams.MinCalories}&maxCalories={FoodParams.MaxCalories}&apiKey=" + ApiKey;
+        }
+
+        else
+        {
+            apiUrl = @$"https://api.spoonacular.com/recipes/complexSearch?diet={FoodParams.Diet}&intolerances={FoodParams.Intolerances}&query={FoodParams.FoodType}&minProtein={FoodParams.MinProtein}&maxProtein={FoodParams.MaxProtein}&minCalories={FoodParams.MinCalories}&maxCalories={FoodParams.MaxCalories}&apiKey=" + ApiKey;
+        }
 
         using var client = new HttpClient();
 

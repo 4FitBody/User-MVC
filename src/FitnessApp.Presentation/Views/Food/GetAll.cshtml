@@ -10,14 +10,13 @@
 
 <h1 style="text-align: center;">@ViewData["Title"]</h1>
 
-<div>
-    <button onclick="location.href='@Url.Action("GetByCategory")'">Filter</button>
-</div>
-
-<br>
-<br>
-
 <div class="container">
+    <div>
+        <button onclick="location.href='@Url.Action("GetByCategory")'" class="button-56" role="button">Filter</button>
+    </div>
+
+    <br>
+    <br>
     <div class="row">
         @foreach (var pair in Model)
         {
@@ -27,7 +26,8 @@
                     <img src="@pair.Image" class="card-img-top" alt="BookCover">
 
                     <div class="card-body">
-                        <button type="button" class="button-link" onclick="location.href='@Url.Action("GetById", new { id = pair.Id, imageUrl = pair.Image })'">@pair.Title</button>
+                        <button type="button" class="button-link"
+                            onclick="location.href='@Url.Action("GetById", new { id = pair.Id, imageUrl = pair.Image })'">@pair.Title</button>
                     </div>
 
                 </div>
