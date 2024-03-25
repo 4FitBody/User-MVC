@@ -29,6 +29,10 @@ public class FoodController : Controller
     {
         var food = await this.sender.Send(new GetByIdQuery(id, imageUrl));
 
+        string htmlResponse = await this.sender.Send(new GetIngredientsQueries(id));
+
+        ViewBag.HtmlResponse = htmlResponse;
+        
         ViewBag.VideoId = food.VideoId;
         
         return View(food);
@@ -46,5 +50,11 @@ public class FoodController : Controller
     public async Task<IActionResult> GetbyCategory()
     {
         return base.View();
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetWidget(int id)
+    {
+        return base.Content(await this.sender.Send(new GetWidgetQueries(id)), "text/html");
     }
 }

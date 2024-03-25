@@ -84,6 +84,52 @@ public class FoodRepository : IFoodRepository
         return recipes.Foods;
     }
 
+    public async Task<string> GetWidget(int? id)
+    {
+        string apiUrl = $"https://api.spoonacular.com/recipes/{id}/nutritionWidget?defaultCss=true&apiKey=" + ApiKey;
+
+        string value = string.Empty;
+        
+        using var client = new HttpClient();
+
+        HttpResponseMessage response = await client.GetAsync(apiUrl);
+
+        if (response.IsSuccessStatusCode)
+        {
+            value = await response.Content.ReadAsStringAsync();
+        }
+
+        else
+        {
+            Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+        }
+
+        return value;
+    }
+
+    public async Task<string> GetIngredients(int? id)
+    {
+        string apiUrl = $"https://api.spoonacular.com/recipes/{id}/ingredientWidget?defaultCss=true&apiKey=" + ApiKey;
+
+        string value = string.Empty;
+
+        using var client = new HttpClient();
+
+        HttpResponseMessage response = await client.GetAsync(apiUrl);
+
+        if (response.IsSuccessStatusCode)
+        {
+            value = await response.Content.ReadAsStringAsync();
+        }
+
+        else
+        {
+            Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+        }
+
+        return value;
+    }
+
     public async Task<Food> GetById(int? id)
     {
         string apiUrl = $"https://api.spoonacular.com/recipes/{id}/summary?apiKey=" + ApiKey;
