@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 public class ExerciseController : Controller
 {
     private readonly ISender sender;
-    private IEnumerable<Exercise?>? searchedExercises;
 
     public ExerciseController(ISender sender) => this.sender = sender;
 
@@ -20,27 +19,19 @@ public class ExerciseController : Controller
     [Route("[controller]/Index")]
     [Route("[controller]/Index/{search}")]
     public async Task<IActionResult> GetAll(string? search)
-    {
-        var query = new GetAllQuery();
-
-        var exercises = await this.sender.Send(query);
-        
+    {   
         if(search is null)
         {
+            var getAllQuery = new GetAllQuery();
+
+            var exercises = await this.sender.Send(getAllQuery);
+
             return base.View(model: exercises);
         }
         
-        search = search.ToLower();
+        var getBySearchQuery = new GetBySearchQuery(search);
 
-        searchedExercises = exercises!.Where(exercise => 
-        exercise.Name!.ToLower().Contains(search)
-        || exercise.BodyPart!.ToLower().Contains(search) 
-        || exercise.Target!.ToLower().Contains(search)
-        || exercise.Equipment!.ToLower().Contains(search)
-        || search.Contains(exercise.BodyPart!.ToLower())
-        || search.Contains(exercise.Target!.ToLower())
-        || search.Contains(exercise.Name!.ToLower())
-        || search.Contains(exercise.Equipment!.ToLower()));
+        var searchedExercises = await this.sender.Send(getBySearchQuery);
         
         return base.View(model: searchedExercises);
     }

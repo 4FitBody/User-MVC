@@ -10,4 +10,5 @@ public interface IExerciseRepository
     Task<IEnumerable<Exercise>?> GetByTarget(string? target);
     Task<IEnumerable<Exercise>?> GetByEquipment(string? equipment);
     Task<IEnumerable<Exercise>?> GetByBodyPart(string? bodyPart);
+    Task<IEnumerable<Exercise?>?> SearchExercises(string search);
 }

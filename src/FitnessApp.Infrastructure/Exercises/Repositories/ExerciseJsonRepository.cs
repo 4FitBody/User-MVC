@@ -9,6 +9,7 @@ public class ExerciseJsonRepository : IExerciseRepository
     private readonly string apiKey;
     private readonly string host;
     private readonly HttpClient client;
+    private IEnumerable<Exercise?>? exercises;
 
     public ExerciseJsonRepository(string apiKey, string host)
     {
@@ -21,13 +22,18 @@ public class ExerciseJsonRepository : IExerciseRepository
 
     public async Task<IEnumerable<Exercise>?> GetAll()
     {
+        if (exercises is not null)
+        {
+            return exercises!;
+        }
+
         var uri = "https://exercisedb.p.rapidapi.com/exercises?limit=2000";
 
         var request = this.CreateRequest(HttpMethod.Get, uri);
 
-        var exercises = await this.GetExercises(request);
+        exercises = await this.GetExercises(request);
 
-        return exercises;
+        return exercises!;
     }
 
     public async Task<IEnumerable<Exercise>?> GetByBodyPart(string? bodyPart)
@@ -131,5 +137,24 @@ public class ExerciseJsonRepository : IExerciseRepository
         }
 
         return exercise!;
+    }
+
+    public async Task<IEnumerable<Exercise?>?> SearchExercises(string search)
+    {
+        search = search.ToLower();
+
+        var allExercises = await this.GetAll();
+
+        var searchedExercises = allExercises!.Where(exercise => 
+        exercise!.Name!.ToLower().Contains(search)
+        || exercise.BodyPart!.ToLower().Contains(search) 
+        || exercise.Target!.ToLower().Contains(search)
+        || exercise.Equipment!.ToLower().Contains(search)
+        || search.Contains(exercise.BodyPart!.ToLower())
+        || search.Contains(exercise.Target!.ToLower())
+        || search.Contains(exercise.Name!.ToLower())
+        || search.Contains(exercise.Equipment!.ToLower()));
+
+        return searchedExercises;
     }
 }
