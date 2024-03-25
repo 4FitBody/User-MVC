@@ -22,10 +22,16 @@
         <div style="color: black;" class="summary">
             @{
                 // Remove <a> tags from Model.Description
-                string descriptionWithoutAnchorTags = System.Text.RegularExpressions.Regex.Replace(Model.Description, @"<a\b[^>]*>(.*?)</a>", "");
+                string descriptionWithoutAnchorTags = System.Text.RegularExpressions.Regex.Replace(Model.Description,
+                @"<a\b[^>]*>(.*?)</a>", "");
             }
             @Html.Raw(descriptionWithoutAnchorTags)
         </div>
+
+        <br>
         
+        <div>
+            <iframe width="420" height="315" src="https://www.youtube.com/embed/@ViewBag.VideoId"></iframe>
+        </div>
     </div>
 </div>

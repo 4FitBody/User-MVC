@@ -1,15 +1,16 @@
 namespace FitnessApp.Infrastructure.Food.Queries;
 
 using FitnessApp.Core.Foods;
+using FitnessApp.Core.Foods.Models;
 using MediatR;
 
 public class GetbyCategoryQueries : IRequest<IEnumerable<Food>>
 {
-    public string? FoodName { get; set; }
+    public FilterFood? FoodParams { get; set; }
 
-    public GetbyCategoryQueries(string? foodName)
+    public GetbyCategoryQueries(FilterFood? foodParams)
     {
-        this.FoodName = foodName;
+        this.FoodParams = foodParams;
     }
 
     public GetbyCategoryQueries() { }

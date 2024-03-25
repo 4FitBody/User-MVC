@@ -11,15 +11,7 @@
 <h1 style="text-align: center;">@ViewData["Title"]</h1>
 
 <div>
-    <div class="dropdown">
-        <button style="color: black" class="dropbtn">Choose a category</button>
-        <div class="dropdown-content">
-            <a asp-action="GetbyCategory" asp-route-foodCategory="salad">Salad</a>
-            <a hasp-action="GetbyCategory" asp-route-foodCategory="meat">Meat</a>
-            <a asp-action="GetbyCategory" asp-route-foodCategory="breakfast">Breakfast</a>
-            <a asp-action="GetbyCategory" asp-route-foodCategory="cake">Cake</a>
-        </div>
-    </div>
+    <button onclick="location.href='@Url.Action("GetByCategory")'">Filter</button>
 </div>
 
 <br>

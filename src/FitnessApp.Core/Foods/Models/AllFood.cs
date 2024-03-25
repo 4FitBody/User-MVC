@@ -5,8 +5,6 @@ using System.Text.Json.Serialization;
 
 public class AllFood
 {
-
     [JsonPropertyName("results")]
     public List<Food> Foods { get; set; }
-
 }
