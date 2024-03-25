@@ -59,23 +59,25 @@ public class IdentityController : Controller
         return base.RedirectToAction("Login");
     }
 
-    public async Task<IActionResult> CreateAdmin()
+    [HttpPost]
+    public async Task<IActionResult> CreateTrainer()
     {
         var user = new User
         {
-            UserName = "Admin",
-            Email = "admin@gmail.com"
+            UserName = "Trainer",
+            Email = "trainer@gmail.com"
         };
 
-        var result = await userManager.CreateAsync(user, "Admin123!");
+        var result = await userManager.CreateAsync(user, "Trainer123!");
 
         var userRole = new IdentityRole
         {
-            Name = "Admin"
+            Name = "Trainer"
         };
 
         await roleManager.CreateAsync(userRole);
-        await userManager.AddToRoleAsync(user, "Admin");
+
+        await userManager.AddToRoleAsync(user, "Trainer");
 
         return Ok();
     }
@@ -105,6 +107,7 @@ public class IdentityController : Controller
         return base.RedirectToAction(actionName: "Index", controllerName: "Home");
     }
 
+    [HttpGet]
     private void AddErrorsToModelState(IEnumerable<IdentityError> errors)
     {
         foreach (var error in errors)
@@ -113,7 +116,7 @@ public class IdentityController : Controller
         }
     }
 
-
+    [HttpGet]
     public async Task<IActionResult> Profile()
     {
         var user = await userManager.GetUserAsync(User);
