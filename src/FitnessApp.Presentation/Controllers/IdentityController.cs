@@ -59,6 +59,27 @@ public class IdentityController : Controller
         return base.RedirectToAction("Login");
     }
 
+    public async Task<IActionResult> CreateAdmin()
+    {
+        var user = new User
+        {
+            UserName = "Admin",
+            Email = "admin@gmail.com"
+        };
+
+        var result = await userManager.CreateAsync(user, "Admin123!");
+
+        var userRole = new IdentityRole
+        {
+            Name = "Admin"
+        };
+
+        await roleManager.CreateAsync(userRole);
+        await userManager.AddToRoleAsync(user, "Admin");
+
+        return Ok();
+    }
+
     [HttpGet]
     public IActionResult Login()
     {
@@ -90,5 +111,13 @@ public class IdentityController : Controller
         {
             base.ModelState.AddModelError(error.Code, error.Description);
         }
+    }
+
+
+    public async Task<IActionResult> Profile()
+    {
+        var user = await userManager.GetUserAsync(User);
+
+        return View(user);
     }
 }
