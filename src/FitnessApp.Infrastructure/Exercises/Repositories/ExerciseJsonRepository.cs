@@ -38,6 +38,13 @@ public class ExerciseJsonRepository : IExerciseRepository
 
     public async Task<IEnumerable<Exercise>?> GetByBodyPart(string? bodyPart)
     {
+        if (this.exercises is not null)
+        {
+            var searchedExercise = this.exercises.Where(exercise => exercise!.BodyPart == bodyPart);
+        
+            return searchedExercise!;
+        }
+
         var uri = $"https://exercisedb.p.rapidapi.com/exercises/bodyPart/{bodyPart}?limit=2000";
 
         var request = this.CreateRequest(HttpMethod.Get, uri);
@@ -60,6 +67,13 @@ public class ExerciseJsonRepository : IExerciseRepository
 
     public async Task<Exercise>? GetById(string? id)
     {
+        if (exercises is not null)
+        {
+            var searchedExercise = exercises.FirstOrDefault(exercise => exercise!.Id == id);
+        
+            return searchedExercise!;
+        }
+
         var uri = $"https://exercisedb.p.rapidapi.com/exercises/exercise/{id}";
 
         var request = this.CreateRequest(HttpMethod.Get, uri);

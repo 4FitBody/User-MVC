@@ -19,6 +19,69 @@
     <button class="exercise-search" type="submit">Search</button>
 </form>
 
+<div class="body-part-filter-container">
+    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="back">
+        <div class="body-part">
+            <img class="body-part-icon" src="~/icons/back.png"/>
+        </div>
+        <div class="body-part">Back</div>
+    </a>
+    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="cardio">
+        <div class="body-part">
+            <img class="body-part-icon" src="~/icons/cardio.png"/>
+        </div>
+        <div class="body-part">Cardio</div>
+    </a>
+    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="neck">
+        <div class="body-part">
+            <img class="body-part-icon" src="~/icons/neck.png"/>
+        </div>
+        <div class="body-part">Neck</div>
+    </a>
+    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="chest">
+        <div class="body-part">
+            <img class="body-part-icon" src="~/icons/chest.png"/>
+        </div>
+        <div class="body-part">Chest</div>
+    </a>
+    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="lower arms">
+        <div class="body-part">
+            <img class="body-part-icon" src="~/icons/upper-arm.png"/>
+        </div>
+        <div class="body-part">Lower arms</div>
+    </a>
+    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="lower legs">
+        <div class="body-part">
+            <img class="body-part-icon" src="~/icons/lower-leg.png"/>
+        </div>
+        <div class="body-part">Lower legs</div>
+    </a>
+    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="shoulders">
+        <div class="body-part">
+            <img class="body-part-icon" src="~/icons/shoulders.png"/>
+        </div>
+        <div class="body-part">Shoulders</div>
+    </a>
+    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="upper arms">
+        <div class="body-part">
+            <img class="body-part-icon" src="~/icons/upper-arm.png"/>
+        </div>
+        <div class="body-part">Upper arms</div>
+    </a>
+    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="upper legs">
+        <div class="body-part">
+            <img class="body-part-icon" src="~/icons/upper-leg.png"/>
+        </div>
+        <div class="body-part">Upper legs</div>
+    </a>
+    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="waist">
+        <div class="body-part">
+            <img class="body-part-icon" src="~/icons/waist.png"/>
+        </div>
+        <div class="body-part">Waist</div>
+    </a>
+</div>
+
 <div class="container">
     <div class="row" id="exercises-list">
         @if (!Model.Any())

@@ -56,4 +56,15 @@ public class ExerciseController : Controller
 
         return base.View(model: exercise);
     }
+
+    [HttpGet]
+    [Route("[controller]/[action]/{bodyPart}")]
+    public async Task<IActionResult> FilterByBodyPart(string bodyPart)
+    {
+        var query = new GetByBodyPartQuery(bodyPart);
+
+        var exercises = await this.sender.Send(query);
+
+        return base.View(viewName: "Index", model: exercises);
+    }
 }

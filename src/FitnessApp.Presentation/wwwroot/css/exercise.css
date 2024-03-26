@@ -93,8 +93,7 @@ input.exercise-search:focus {
     outline: none;
 }
 
-button.exercise-search,
-a.exercise-search {
+button.exercise-search {
     outline: none;
     border: gray 1px solid;
     padding: 0;
@@ -105,4 +104,31 @@ a.exercise-search {
     text-transform: none;
     text-decoration: none;
     border-radius: 8px;
+}
+
+.body-part-filter-container {
+    margin: 60px 0;
+}
+
+.body-part-icon {
+    width: 80px;
+}
+
+.body-part-filter-container > a {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 100px;
+    background-color: white !important;
+    margin: 15px;
+    text-decoration: none !important;
+}
+
+#exercises-list {
+    margin-top: 60px;
+}
+
+.body-part {
+    width: 80px;
+    display: inline-block;
 }
