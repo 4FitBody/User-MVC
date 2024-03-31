@@ -1,0 +1,121 @@
+@model List<FitnessApp.Core.Foods.Food>
+@{
+    ViewData["Title"] = "All Food";
+    string query = string.Empty;
+    var foodParams = new FitnessApp.Core.Foods.Models.FilterFood();
+}
+
+<link rel='stylesheet' href='~/css/food.css'>
+<link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Poppins&amp;display=swap'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+<h1 style="text-align: center;">@ViewData["Title"]</h1>
+
+<div class="container">
+    <div class="flex-container">
+        <div class="flex-child1">
+            <form asp-action="Get" method="get" class="search" id="search-bar">
+                <input type="search" placeholder="Type something..." asp-for="@query" class="search__input">
+                <div class="search__button" id="search-button">
+                    <i class="fa fa-search search__icon"></i>
+                    <i class="fa search__close">&#xf00d;</i>
+                </div>
+            </form>
+        </div>
+
+        <div class="dropdown flex-child2">
+            <button id="Filter" onclick="toggleFilterForm()" class="button-56 filter-btn" role="button">Filter</button>
+            <div class="filter-form" id="filterForm">
+                <form action="Get" method="post">
+
+                    <label asp-for="@foodParams.FoodType">Type: </label>
+                    <br>
+                    <input type="text" asp-for="@foodParams.FoodType" required>
+                    <br>
+
+                    <label asp-for="@foodParams.Diet">Diet: </label>
+                    <br>
+                    <select asp-for="@foodParams.Diet">
+                        <option value="Omnivore">Omnivore</option>
+                        <option value="Vegetarian">Vegetarian</option>
+                        <option value="Vegan">Vegan</option>
+                        <option value="Paleo">Paleo</option>
+                        <option value="Ketogenic">Ketogenic</option>
+                    </select>
+                    <br>
+
+                    <label asp-for="@foodParams.Intolerances">Intolerances: </label>
+                    <br>
+                    <input type="text" asp-for="@foodParams.Intolerances">
+                    <br>
+
+                    <label asp-for="@foodParams.MinProtein">Minimum Protein: </label>
+                    <br>
+                    <input type="number" value="10" min="10" asp-for="@foodParams.MinProtein">
+                    <br>
+
+                    <label asp-for="@foodParams.MaxProtein">Maximum Protein: </label>
+                    <br>
+                    <input type="number" value="100" max="100" asp-for="@foodParams.MaxProtein">
+                    <br>
+
+                    <label asp-for="@foodParams.MinCalories">Minimum Calories: </label>
+                    <br>
+                    <input type="number" value="50" min="50" asp-for="@foodParams.MinCalories">
+                    <br>
+
+                    <label asp-for="@foodParams.MaxCalories">Maximum Calories: </label>
+                    <br>
+                    <input type="number" value="800" max="800" asp-for="@foodParams.MaxCalories">
+                    <br>
+                    <br>
+
+                    <button class="button-17" role="button">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+
+    <div class="row">
+        @foreach (var pair in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+
+                    <img src="@pair.Image" class="card-img-top" alt="FoodCover">
+
+                    <div class="card-body">
+                        <button type="button" class="button-link"
+                            onclick="location.href='@Url.Action("GetById", new { id = pair.Id, imageUrl = pair.Image })'">@pair.Title</button>
+                    </div>
+
+                </div>
+            </div>
+        }
+    </div>
+
+</div>
+
+<script>
+    function toggleFilterForm() {
+        var filterForm = document.getElementById("filterForm");
+        if (filterForm.style.display === "block") {
+            filterForm.style.display = "none";
+        } else {
+            filterForm.style.display = "block";
+        }
+    }
+    const toggleSearch = (search, button) => {
+        const searchBar = document.getElementById(search),
+            searchButton = document.getElementById(button)
+
+        searchButton.addEventListener('click', () => {
+            searchBar.classList.toggle('show-search')
+        })
+    }
+    toggleSearch('search-bar', 'search-button')
+</script>

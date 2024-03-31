@@ -14,4 +14,6 @@ public interface IFoodRepository
     public Task<string> GetWidget(int? id);
 
     public Task<string> GetIngredients(int? id);
+
+    public Task<IEnumerable<Food>> Search(string query);
 }

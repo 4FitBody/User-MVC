@@ -1,5 +1,6 @@
 namespace FitnessApp.Presentation.Controllers;
 
+using FitnessApp.Core.Foods;
 using FitnessApp.Core.Foods.Models;
 using FitnessApp.Infrastructure.Food.Queries;
 using MediatR;
@@ -17,12 +18,20 @@ public class FoodController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    [Route("[controller]/[action]")]
+    [Route("[controller]/[action]/{query}")]
+    public async Task<IActionResult> Get(string? query)
     {
-        var foods = await this.sender.Send(new GetAllQueries());
+        if(query is null){
+            var foods = await this.sender.Send(new GetAllQueries());
 
-        return View(foods);
+            return View(foods);
+        }
+        var Allfoods = await this.sender.Send(new SearchQueries(query));
+
+        return View(Allfoods);
     }
+
 
     [HttpGet]
     public async Task<IActionResult> GetById(int id, string imageUrl)
@@ -39,17 +48,11 @@ public class FoodController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> GetbyCategory([FromForm] FilterFood foodParams)
+    public async Task<IActionResult> Get([FromForm] FilterFood foodParams)
     {
         var foods = await this.sender.Send(new GetbyCategoryQueries(foodParams));
-        
-        return base.View(foods);
-    }
 
-    [HttpGet]
-    public async Task<IActionResult> GetbyCategory()
-    {
-        return base.View();
+        return base.View(foods);
     }
 
     [HttpGet]
