@@ -14,16 +14,6 @@
 
 <div class="container">
     <div class="flex-container">
-        <div class="flex-child1">
-            <form asp-action="Get" method="get" class="search" id="search-bar">
-                <input type="search" placeholder="Type something..." asp-for="@query" class="search__input">
-                <div class="search__button" id="search-button">
-                    <i class="fa fa-search search__icon"></i>
-                    <i class="fa search__close">&#xf00d;</i>
-                </div>
-            </form>
-        </div>
-
         <div class="dropdown flex-child2">
             <button id="Filter" onclick="toggleFilterForm()" class="button-56 filter-btn" role="button">Filter</button>
             <div class="filter-form" id="filterForm">
@@ -75,6 +65,16 @@
                 </form>
             </div>
         </div>
+        <div class="flex-child1">
+            <form asp-action="Get" method="get" class="search" id="search-bar">
+                <input type="search" placeholder="Type something..." asp-for="@query" class="search__input">
+                <div class="search__button" id="search-button">
+                    <i class="fa fa-search search__icon"></i>
+                    <i class="fa search__close">&#xf00d;</i>
+                </div>
+            </form>
+        </div>
+
     </div>
 
     <br>

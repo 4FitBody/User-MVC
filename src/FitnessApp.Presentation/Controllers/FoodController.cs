@@ -22,11 +22,12 @@ public class FoodController : Controller
     [Route("[controller]/[action]/{query}")]
     public async Task<IActionResult> Get(string? query)
     {
-        if(query is null){
+        if(string.IsNullOrWhiteSpace(query)){
             var foods = await this.sender.Send(new GetAllQueries());
 
             return View(foods);
         }
+        
         var Allfoods = await this.sender.Send(new SearchQueries(query));
 
         return View(Allfoods);
