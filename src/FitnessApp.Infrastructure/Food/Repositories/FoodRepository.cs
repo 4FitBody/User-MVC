@@ -16,7 +16,27 @@ public class FoodRepository : IFoodRepository
 
     public async Task<IEnumerable<Food>> GetByCategory(FilterFood? FoodParams)
     {
-        string apiUrl = @$"https://api.spoonacular.com/recipes/complexSearch?diet={FoodParams.Diet}&intolerances={FoodParams.Intolerances}&query={FoodParams.FoodType}&minProtein={FoodParams.MinProtein}&maxProtein={FoodParams.MaxProtein}&minCalories={FoodParams.MinCalories}&maxCalories={FoodParams.MaxCalories}&apiKey=" + ApiKey;
+        string apiUrl = string.Empty;
+
+        if (FoodParams.Diet.Contains("Omnivore") && string.IsNullOrWhiteSpace(FoodParams.Intolerances))
+        {
+            apiUrl = @$"https://api.spoonacular.com/recipes/complexSearch?query={FoodParams.FoodType}&minProtein={FoodParams.MinProtein}&maxProtein={FoodParams.MaxProtein}&minCalories={FoodParams.MinCalories}&maxCalories={FoodParams.MaxCalories}&apiKey=" + ApiKey;
+        }
+
+        else if (FoodParams.Diet.Contains("Omnivore"))
+        {
+            apiUrl = @$"https://api.spoonacular.com/recipes/complexSearch?intolerances={FoodParams.Intolerances}&query={FoodParams.FoodType}&minProtein={FoodParams.MinProtein}&maxProtein={FoodParams.MaxProtein}&minCalories={FoodParams.MinCalories}&maxCalories={FoodParams.MaxCalories}&apiKey=" + ApiKey;
+        }
+
+        else if (string.IsNullOrWhiteSpace(FoodParams.Intolerances))
+        {
+            apiUrl = @$"https://api.spoonacular.com/recipes/complexSearch?diet={FoodParams.Diet}&query={FoodParams.FoodType}&minProtein={FoodParams.MinProtein}&maxProtein={FoodParams.MaxProtein}&minCalories={FoodParams.MinCalories}&maxCalories={FoodParams.MaxCalories}&apiKey=" + ApiKey;
+        }
+
+        else
+        {
+            apiUrl = @$"https://api.spoonacular.com/recipes/complexSearch?diet={FoodParams.Diet}&intolerances={FoodParams.Intolerances}&query={FoodParams.FoodType}&minProtein={FoodParams.MinProtein}&maxProtein={FoodParams.MaxProtein}&minCalories={FoodParams.MinCalories}&maxCalories={FoodParams.MaxCalories}&apiKey=" + ApiKey;
+        }
 
         using var client = new HttpClient();
 
@@ -62,6 +82,77 @@ public class FoodRepository : IFoodRepository
         }
 
         return recipes.Foods;
+    }
+
+    public async Task<IEnumerable<Food>> Search(string query)
+    {
+        string apiUrl = $"https://api.spoonacular.com/recipes/complexSearch?query={query}&apiKey=" + ApiKey;
+
+        using var client = new HttpClient();
+
+        var recipes = new AllFood();
+
+        HttpResponseMessage response = await client.GetAsync(apiUrl);
+
+        if (response.IsSuccessStatusCode)
+        {
+            string json = await response.Content.ReadAsStringAsync();
+
+            recipes = JsonSerializer.Deserialize<AllFood>(json);
+        }
+
+        else
+        {
+            Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+        }
+        
+        return recipes.Foods;
+    }
+
+    public async Task<string> GetWidget(int? id)
+    {
+        string apiUrl = $"https://api.spoonacular.com/recipes/{id}/nutritionWidget?defaultCss=true&apiKey=" + ApiKey;
+
+        string value = string.Empty;
+
+        using var client = new HttpClient();
+
+        HttpResponseMessage response = await client.GetAsync(apiUrl);
+
+        if (response.IsSuccessStatusCode)
+        {
+            value = await response.Content.ReadAsStringAsync();
+        }
+
+        else
+        {
+            Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+        }
+
+        return value;
+    }
+
+    public async Task<string> GetIngredients(int? id)
+    {
+        string apiUrl = $"https://api.spoonacular.com/recipes/{id}/ingredientWidget?defaultCss=true&apiKey=" + ApiKey;
+
+        string value = string.Empty;
+
+        using var client = new HttpClient();
+
+        HttpResponseMessage response = await client.GetAsync(apiUrl);
+
+        if (response.IsSuccessStatusCode)
+        {
+            value = await response.Content.ReadAsStringAsync();
+        }
+
+        else
+        {
+            Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+        }
+
+        return value;
     }
 
     public async Task<Food> GetById(int? id)

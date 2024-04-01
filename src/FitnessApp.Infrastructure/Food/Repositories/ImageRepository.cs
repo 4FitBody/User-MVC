@@ -18,12 +18,18 @@ public class ImageRepository : IImageRepository
 
         var result = await pexelsClient.SearchPhotosAsync(foodName);
 
-        var photos = result.photos;
-
-        if (photos is null)
+        if (result is null || result.photos.Count==0)
         {
-            throw new ArgumentNullException("No Image for this food");
+            foodName = "sorry";
+
+            result = await pexelsClient.SearchPhotosAsync(foodName);
+
+            var defautlPhoto = result.photos;
+
+            return defautlPhoto.FirstOrDefault().source.original;
         }
+
+        var photos = result.photos;
 
         return photos.FirstOrDefault().source.original;
     }
