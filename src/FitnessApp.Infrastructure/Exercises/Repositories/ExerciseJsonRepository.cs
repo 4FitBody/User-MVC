@@ -9,7 +9,7 @@ public class ExerciseJsonRepository : IExerciseRepository
     private readonly string apiKey;
     private readonly string host;
     private readonly HttpClient client;
-    private IEnumerable<Exercise?>? exercises;
+    private IEnumerable<Exercise?>? allExercises;
 
     public ExerciseJsonRepository(string apiKey, string host)
     {
@@ -20,32 +20,20 @@ public class ExerciseJsonRepository : IExerciseRepository
         this.client = new HttpClient();
     }
 
-    public async Task<IEnumerable<Exercise>?> GetAll()
+    public async Task<IEnumerable<Exercise>?> GetAll(int? limit, int? offset)
     {
-        if (exercises is not null)
-        {
-            return exercises!;
-        }
-
-        var uri = "https://exercisedb.p.rapidapi.com/exercises?limit=2000";
+        var uri = $"https://exercisedb.p.rapidapi.com/exercises?limit={limit}&offset={offset}";
 
         var request = this.CreateRequest(HttpMethod.Get, uri);
 
-        exercises = await this.GetExercises(request);
+        allExercises = await this.GetExercises(request);
 
-        return exercises!;
+        return allExercises!;
     }
 
-    public async Task<IEnumerable<Exercise>?> GetByBodyPart(string? bodyPart)
+    public async Task<IEnumerable<Exercise>?> GetByBodyPart(string? bodyPart, int? limit, int? offset)
     {
-        if (this.exercises is not null)
-        {
-            var searchedExercise = this.exercises.Where(exercise => exercise!.BodyPart == bodyPart);
-        
-            return searchedExercise!;
-        }
-
-        var uri = $"https://exercisedb.p.rapidapi.com/exercises/bodyPart/{bodyPart}?limit=2000";
+        var uri = $"https://exercisedb.p.rapidapi.com/exercises/bodyPart/{bodyPart}?limit={limit}&offset={offset}";
 
         var request = this.CreateRequest(HttpMethod.Get, uri);
 
@@ -67,13 +55,6 @@ public class ExerciseJsonRepository : IExerciseRepository
 
     public async Task<Exercise>? GetById(string? id)
     {
-        if (exercises is not null)
-        {
-            var searchedExercise = exercises.FirstOrDefault(exercise => exercise!.Id == id);
-        
-            return searchedExercise!;
-        }
-
         var uri = $"https://exercisedb.p.rapidapi.com/exercises/exercise/{id}";
 
         var request = this.CreateRequest(HttpMethod.Get, uri);
@@ -103,6 +84,17 @@ public class ExerciseJsonRepository : IExerciseRepository
         var exercises = await this.GetExercises(request);
 
         return exercises;
+    }
+
+    public async Task<IEnumerable<string>?> GetBodyParts()
+    {
+        var uri = $"https://exercisedb.p.rapidapi.com/exercises/bodyPartList";
+
+        var request = this.CreateRequest(HttpMethod.Get, uri);
+
+        var bodyParts = await this.GetBodyParts(request);
+
+        return bodyParts;
     }
 
     private HttpRequestMessage CreateRequest(HttpMethod httpMethod, string uri)
@@ -137,6 +129,22 @@ public class ExerciseJsonRepository : IExerciseRepository
         return exercises;
     }
 
+    private async Task<IEnumerable<string>?> GetBodyParts(HttpRequestMessage request)
+    {
+        var bodyParts = Enumerable.Empty<string>();
+
+        using (var response = await client.SendAsync(request))
+        {
+            response.EnsureSuccessStatusCode();
+
+            var body = await response.Content.ReadAsStringAsync();
+
+            bodyParts = JsonConvert.DeserializeObject<IEnumerable<string>>(body);
+        }
+
+        return bodyParts;
+    }
+
     private async Task<Exercise>? GetExercise(HttpRequestMessage request)
     {
         var exercise = new Exercise();
@@ -156,8 +164,6 @@ public class ExerciseJsonRepository : IExerciseRepository
     public async Task<IEnumerable<Exercise?>?> SearchExercises(string search)
     {
         search = search.ToLower();
-
-        var allExercises = await this.GetAll();
 
         var searchedExercises = allExercises!.Where(exercise => 
         exercise!.Name!.ToLower().Contains(search)

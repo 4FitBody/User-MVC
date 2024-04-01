@@ -15,7 +15,11 @@ public class GetByBodyPartHandler : IRequestHandler<GetByBodyPartQuery, IEnumera
     {
         ArgumentNullException.ThrowIfNull(request.BodyPart);
 
-        var exercises = await this.exerciseRepository.GetByBodyPart(request.BodyPart);
+        ArgumentNullException.ThrowIfNull(request.Limit);
+        
+        ArgumentNullException.ThrowIfNull(request.Offset);
+
+        var exercises = await this.exerciseRepository.GetByBodyPart(request.BodyPart, request.Limit, request.Offset);
 
         if (exercises is null)
         {

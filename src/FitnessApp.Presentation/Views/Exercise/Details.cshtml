@@ -9,7 +9,7 @@
 <br>
 <br>
 
-<h1 style="text-align: center !important;">@ViewData["Title"]</h1>
+<h1 style="text-align: center !important;">@Model.Name.ToUpper()</h1>
 
 <br>
 <br>
@@ -26,7 +26,8 @@
                                 text-align: left !important;
                             }
                         </style>
-                        <span class="name"><b>@Model.Name</b></span>
+                        <br>
+                        <br>
                         <br>
                         <br>
                         <br>
@@ -52,7 +53,7 @@
                     </div>
                     <div>
                         <br>
-                        <div><b>Instructions:</b></div>
+                        <div><span><b>Instructions:</b></span></div>
                         <br>
                         <ol class="instructions-list">
                             @foreach (var instruction in Model.Instructions)

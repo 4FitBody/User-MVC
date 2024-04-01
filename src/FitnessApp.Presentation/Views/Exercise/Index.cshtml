@@ -1,9 +1,11 @@
-@model IEnumerable<Exercise>
+@model ExercisesViewModel
 
 @{
     ViewData["Title"] = "All exercises";
 
     var search = string.Empty;
+
+    IEnumerable<string> bodyParts = (IEnumerable<string>)ViewData["bodyParts"];
 }
 
 <link rel='stylesheet' href='~/css/exercise.css'>
@@ -20,77 +22,26 @@
 </form>
 
 <div class="body-part-filter-container">
-    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="back">
-        <div class="body-part">
-            <img class="body-part-icon" src="~/icons/back.png"/>
-        </div>
-        <div class="body-part">Back</div>
-    </a>
-    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="cardio">
-        <div class="body-part">
-            <img class="body-part-icon" src="~/icons/cardio.png"/>
-        </div>
-        <div class="body-part">Cardio</div>
-    </a>
-    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="neck">
-        <div class="body-part">
-            <img class="body-part-icon" src="~/icons/neck.png"/>
-        </div>
-        <div class="body-part">Neck</div>
-    </a>
-    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="chest">
-        <div class="body-part">
-            <img class="body-part-icon" src="~/icons/chest.png"/>
-        </div>
-        <div class="body-part">Chest</div>
-    </a>
-    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="lower arms">
-        <div class="body-part">
-            <img class="body-part-icon" src="~/icons/upper-arm.png"/>
-        </div>
-        <div class="body-part">Lower arms</div>
-    </a>
-    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="lower legs">
-        <div class="body-part">
-            <img class="body-part-icon" src="~/icons/lower-leg.png"/>
-        </div>
-        <div class="body-part">Lower legs</div>
-    </a>
-    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="shoulders">
-        <div class="body-part">
-            <img class="body-part-icon" src="~/icons/shoulders.png"/>
-        </div>
-        <div class="body-part">Shoulders</div>
-    </a>
-    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="upper arms">
-        <div class="body-part">
-            <img class="body-part-icon" src="~/icons/upper-arm.png"/>
-        </div>
-        <div class="body-part">Upper arms</div>
-    </a>
-    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="upper legs">
-        <div class="body-part">
-            <img class="body-part-icon" src="~/icons/upper-leg.png"/>
-        </div>
-        <div class="body-part">Upper legs</div>
-    </a>
-    <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="waist">
-        <div class="body-part">
-            <img class="body-part-icon" src="~/icons/waist.png"/>
-        </div>
-        <div class="body-part">Waist</div>
-    </a>
+    @foreach(var bodyPart in bodyParts)
+    {
+        <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="@bodyPart" asp-route-offset="@Model.Offset">
+            <div class="body-part">
+                <img class="body-part-icon" src="~/icons/gym.png"/>
+            </div>
+            <div class="body-part">@bodyPart</div>
+        </a>
+    }
 </div>
 
 <div class="container">
     <div class="row" id="exercises-list">
-        @if (!Model.Any())
+        @if (!Model.Exercises.Any())
         {
             <div>Nothing was found!</div>
         }
         else
         {
-            @foreach (var exercise in Model)
+            @foreach (var exercise in Model.Exercises)
             {
                 <div id="exercise-list-item" class="col-md-4">
                     <div id="exercise-card" class="card mb-4 shadow-sm">
@@ -110,3 +61,19 @@
         }
     </div>
 </div>
+
+<nav aria-label="Page navigation example">
+    <ul id="paginationUl" class="pagination justify-content-end">
+        @if (Model.Offset != 0)
+        {
+          <li class="page-item"><a class="page-link" href="?offset=@(Model.Offset - 1)">&lt;-</a></li>
+        }
+        <li class="page-item"><a class="page-link" href="?offset=1">1</a></li>
+        <li class="page-item"><a class="page-link" href="?offset=1">2</a></li>
+        <li class="page-item"><a class="page-link" href="?offset=2">3</a></li>
+        @if (Model.Offset != 1000)
+        {
+          <li class="page-item"><a class="page-link" href="?offset=@(Model.Offset + 1)">-></a></li>
+        }
+    </ul>
+</nav>

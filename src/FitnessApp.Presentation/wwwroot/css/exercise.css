@@ -129,6 +129,17 @@ button.exercise-search {
 }
 
 .body-part {
-    width: 80px;
+    width: 90px;
+    margin: 4px 0;
+    font-weight: 520;
     display: inline-block;
+}
+
+.body-part-filter-container > a:hover {
+    transform: scale(1.15);
+    transition: all .8s;
+}
+
+span, ul, li {
+    font-size: 22px;
 }
