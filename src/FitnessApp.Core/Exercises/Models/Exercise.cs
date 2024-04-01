@@ -1,28 +1,30 @@
 namespace FitnessApp.Core.Exercises.Models;
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 public class Exercise
 {
+    [JsonProperty("id")]
+    public string? Id { get; set; }
+
     [JsonProperty("name")]
     public string? Name { get; set; }
 
-    [JsonProperty("type")]
-    [JsonConverter(typeof(StringEnumConverter))]
-    public ExerciseType? Type { get; set; }
-
-    [JsonProperty("muscle")]
-    [JsonConverter(typeof(StringEnumConverter))]
-    public MuscleType? Muscle { get; set; }
+    [JsonProperty("bodyPart")]
+    public string? BodyPart { get; set; }
 
     [JsonProperty("equipment")]
-    public string? EquipmentName { get; set; }
+    public string? Equipment { get; set; }
 
-    [JsonProperty("difficulty")]
-    [JsonConverter(typeof(StringEnumConverter))]
-    public Difficulty? Difficulty { get; set; }
+    [JsonProperty("gifUrl")]
+    public string? GifUrl { get; set; }
+
+    [JsonProperty("target")]
+    public string? Target { get; set; }
+
+    [JsonProperty("secondaryMuscles")]
+    public string?[]? SecondaryMuscles { get; set; }
 
     [JsonProperty("instructions")]
-    public string? Instructions { get; set; }
+    public string?[]? Instructions { get; set; }
 }
