@@ -1,4 +1,5 @@
-@model List<FitnessApp.Core.Foods.Food>
+@model FitnessApp.Core.Foods.AllFood
+
 @{
     ViewData["Title"] = "All Food";
     string query = string.Empty;
@@ -81,7 +82,7 @@
     <br>
 
     <div class="row">
-        @foreach (var pair in Model)
+        @foreach (var pair in Model.Foods)
         {
             <div class="col-md-4">
                 <div class="card mb-4 shadow-sm">
@@ -97,6 +98,22 @@
             </div>
         }
     </div>
+
+    <nav aria-label="Page navigation example">
+        <ul id="paginationUl" class="pagination justify-content-center">
+            @if (Model.Offset != 0)
+            {
+                <li class="page-item"><a class="page-link" href="?offset=@(Model.Offset - 1)">&lt;-</a></li>
+            }
+            <li class="page-item"><a class="page-link" href="?offset=1">1</a></li>
+            <li class="page-item"><a class="page-link" href="?offset=1">2</a></li>
+            <li class="page-item"><a class="page-link" href="?offset=2">3</a></li>
+            @if (Model.Offset != 11)
+            {
+                <li class="page-item"><a class="page-link" href="?offset=@(Model.Offset + 1)">-></a></li>
+            }
+        </ul>
+    </nav>
 
 </div>
 

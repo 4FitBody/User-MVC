@@ -26,16 +26,12 @@
                     string descriptionWithoutAnchorTags = System.Text.RegularExpressions.Regex.Replace(Model.Description,
                     @"<a\b[^>]*>(.*?)</a>", "");
                 }
-                <p class="mb-8 leading-relaxed">@Html.Raw(descriptionWithoutAnchorTags)</p>
+                <p class="mb-8 leading-relaxed" style="text-align: justify">@Html.Raw(descriptionWithoutAnchorTags)</p>
 
                 <div class="flex justify-center">
                     <button onclick="location.href='@Url.Action("GetWidget", new { id = Model.Id})'"
                         class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Show
                         More</button>
-
-                    <button style="margin: 0px 20px;" onclick="location.href='@Url.Action("Get")'"
-                        class="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Return
-                        to All</button>
                 </div>
 
             </div>
