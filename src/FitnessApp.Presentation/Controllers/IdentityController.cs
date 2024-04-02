@@ -1,5 +1,7 @@
 namespace FinanceApp.Presentation.Controllers;
 
+using System.Security.Claims;
+using FitnessApp.Core.Services;
 using FitnessApp.Core.Users.Models;
 using FitnessApp.Presentation.Users.Dtos;
 using Microsoft.AspNetCore.Authorization;
@@ -13,13 +15,17 @@ public class IdentityController : Controller
     private readonly RoleManager<IdentityRole> roleManager;
     private readonly SignInManager<User> signInManager;
 
-    public IdentityController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager)
+    private readonly IUserService userService;
+
+    public IdentityController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, SignInManager<User> signInManager, IUserService userService)
     {
         this.userManager = userManager;
 
         this.roleManager = roleManager;
-
+        
         this.signInManager = signInManager;
+        
+        this.userService = userService;
     }
 
     [Authorize]
@@ -123,4 +129,14 @@ public class IdentityController : Controller
 
         return View(user);
     }
+
+     [HttpPut]
+    public async Task<IActionResult> Edit(string id, [FromBody] User user)
+    {
+        await this.userService.UpdateUserAsync(id, user);
+
+        return base.RedirectToAction("Profile");
+
+    }
+
 }

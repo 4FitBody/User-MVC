@@ -8,7 +8,7 @@
 }
 
 <div class="profile-div">
-    <form id="edit" class="profile-form">
+    <form asp-action="Edit" method="post" class="profile-form">
         <p class="form-name">Profile</p>
 
         <label asp-for="@Model.UserName">Name:</label>
@@ -26,7 +26,7 @@
         
         <input hidden asp-for="@Model.Id" type="text">
 
-        <button onclick="editUser('@Model.Id')" type="submit">Edit</button>
+        <button type="submit">Edit</button>
     </form>
 </div>
 
@@ -97,28 +97,7 @@
 <script>
     function maxLengthCheck(object) {
         if (object.value.length > object.maxLength) {
-
             object.value = object.value.slice(0, object.maxLength);
         }
-    }
-    async function  editUser(id){
-        event.preventDefault();
-
-        const editUserForm = document.getElementById("edit");
-
-        const formData = new FormData(editUserForm);
-
-        let jsonData = {};
-
-        for(let [key,value] of formData.entries()) {
-
-            jsonData[key] = value;
-        }
-
-        await fetch("/Identity/Edit/" + id,{
-            method: "PUT",
-            body: JSON.stringify(jsonData),
-            headers: {"Content-Type": "application/json"}
-        }).then(res => window.location.href = "/Identity/Profile")
     }
 </script>

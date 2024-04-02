@@ -1,10 +1,12 @@
 using FitnessApp.Core.Exercises.Repositories;
 using FitnessApp.Core.Foods.Repositories;
+using FitnessApp.Core.Services;
 using FitnessApp.Core.Users.Models;
 using FitnessApp.Infrastructure.Data;
 using FitnessApp.Infrastructure.Exercises.Repositories;
 using FitnessApp.Infrastructure.Food.Repositories;
 using FitnessApp.Infrastructure.Food.Repositories.Base;
+using FitnessApp.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,6 +49,11 @@ builder.Services.AddScoped<IVideoRepository>(provider=>
 
     return new VideoRepository(APIkey);
 });
+
+
+builder.Services.AddScoped<IUserService,UserService>();
+
+
 
 builder.Services.AddScoped<IImageRepository>(provider =>
 {

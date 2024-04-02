@@ -7,5 +7,7 @@ namespace FitnessApp.Infrastructure.Data;
 
 public class FitnessAppDbContext : IdentityDbContext<User, IdentityRole, string>
 {
+        public DbSet<User> userServices {get; set;}
+
     public FitnessAppDbContext(DbContextOptions<FitnessAppDbContext> options) : base(options) { }
 }
