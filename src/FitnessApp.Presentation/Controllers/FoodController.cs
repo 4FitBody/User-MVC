@@ -1,5 +1,6 @@
 namespace FitnessApp.Presentation.Controllers;
 
+using System.Runtime.InteropServices;
 using FitnessApp.Core.Foods;
 using FitnessApp.Core.Foods.Models;
 using FitnessApp.Infrastructure.Food.Queries;
@@ -20,15 +21,20 @@ public class FoodController : Controller
     [HttpGet]
     [Route("[controller]/[action]")]
     [Route("[controller]/[action]/{query}")]
-    public async Task<IActionResult> Get(string? query)
+    public async Task<IActionResult> Get(string? query, int offset = 0)
     {
-        if(string.IsNullOrWhiteSpace(query)){
-            var foods = await this.sender.Send(new GetAllQueries());
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            var foods = await this.sender.Send(new GetAllQueries(offset));
+
+            foods.Offset = offset;
 
             return View(foods);
         }
-        
-        var Allfoods = await this.sender.Send(new SearchQueries(query));
+
+        var Allfoods = await this.sender.Send(new SearchQueries(query,offset));
+
+        Allfoods.Offset = offset;
 
         return View(Allfoods);
     }
@@ -42,16 +48,16 @@ public class FoodController : Controller
         string htmlResponse = await this.sender.Send(new GetIngredientsQueries(id));
 
         ViewBag.HtmlResponse = htmlResponse;
-        
+
         ViewBag.VideoId = food.VideoId;
-        
+
         return View(food);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Get([FromForm] FilterFood foodParams)
+    public async Task<IActionResult> Get([FromForm] FilterFood foodParams,int offset = 0)
     {
-        var foods = await this.sender.Send(new GetbyCategoryQueries(foodParams));
+        var foods = await this.sender.Send(new GetbyCategoryQueries(foodParams,offset));
 
         return base.View(foods);
     }
