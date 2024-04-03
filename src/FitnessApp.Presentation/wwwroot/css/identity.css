@@ -180,3 +180,7 @@ a:hover {
 .icon.blinking {
   animation: blink 1s infinite;
 }
+
+.login-box {
+  background-color: rgb(128, 128, 128);
+}
