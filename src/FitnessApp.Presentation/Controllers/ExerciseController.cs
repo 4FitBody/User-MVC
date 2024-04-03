@@ -1,6 +1,5 @@
 namespace FitnessApp.Presentation.Controllers;
 
-using System.Xml.Serialization;
 using FitnessApp.Infrastructure.Exercises.Queries;
 using FitnessApp.Presentation.ViewModels;
 using MediatR;

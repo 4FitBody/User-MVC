@@ -9,8 +9,6 @@ public class ExerciseJsonRepository : IExerciseRepository
     private readonly string apiKey;
     private readonly string host;
     private readonly HttpClient client;
-    private IEnumerable<Exercise?>? allExercises;
-
     public ExerciseJsonRepository(string apiKey, string host)
     {
         this.apiKey = apiKey;
@@ -26,7 +24,7 @@ public class ExerciseJsonRepository : IExerciseRepository
 
         var request = this.CreateRequest(HttpMethod.Get, uri);
 
-        allExercises = await this.GetExercises(request);
+        var allExercises = await this.GetExercises(request);
 
         return allExercises!;
     }
@@ -165,6 +163,8 @@ public class ExerciseJsonRepository : IExerciseRepository
     {
         search = search.ToLower();
 
+        var allExercises = await this.GetAll(2000, 0);
+
         var searchedExercises = allExercises!.Where(exercise => 
         exercise!.Name!.ToLower().Contains(search)
         || exercise.BodyPart!.ToLower().Contains(search) 
@@ -173,7 +173,7 @@ public class ExerciseJsonRepository : IExerciseRepository
         || search.Contains(exercise.BodyPart!.ToLower())
         || search.Contains(exercise.Target!.ToLower())
         || search.Contains(exercise.Name!.ToLower())
-        || search.Contains(exercise.Equipment!.ToLower()));
+        || search.Contains(exercise.Equipment!.ToLower())).Take(12);
 
         return searchedExercises;
     }

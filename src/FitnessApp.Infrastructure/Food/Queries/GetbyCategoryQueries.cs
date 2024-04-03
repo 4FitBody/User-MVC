@@ -4,17 +4,13 @@ using FitnessApp.Core.Foods;
 using FitnessApp.Core.Foods.Models;
 using MediatR;
 
-public class GetbyCategoryQueries : IRequest<AllFood>
+public class GetbyCategoryQueries : IRequest<IEnumerable<Food>>
 {
     public FilterFood? FoodParams { get; set; }
 
-    public int Offset { get; set; }
-    
-    public GetbyCategoryQueries(FilterFood? foodParams, int offset)
+    public GetbyCategoryQueries(FilterFood? foodParams)
     {
         this.FoodParams = foodParams;
-
-        this.Offset = offset;
     }
 
     public GetbyCategoryQueries() { }
