@@ -13,7 +13,11 @@ public class GetAllHandler : IRequestHandler<GetAllQuery, IEnumerable<Exercise>?
 
     public async Task<IEnumerable<Exercise>?> Handle(GetAllQuery request, CancellationToken cancellationToken)
     {
-        var exercises = await this.exerciseRepository.GetAll();
+        ArgumentNullException.ThrowIfNull(request.Limit);
+
+        ArgumentNullException.ThrowIfNull(request.Offset);
+
+        var exercises = await this.exerciseRepository.GetAll(request.Limit, request.Offset);
 
         if (exercises is null)
         {

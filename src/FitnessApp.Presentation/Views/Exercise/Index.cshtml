@@ -1,32 +1,79 @@
-@model IEnumerable<Exercise>
+@model ExercisesViewModel
 
 @{
     ViewData["Title"] = "All exercises";
+
+    var search = string.Empty;
+
+    IEnumerable<string> bodyParts = (IEnumerable<string>)ViewData["bodyParts"];
 }
 
-<h1 style="text-align: center;">@ViewData["Title"]</h1>
+<link rel='stylesheet' href='~/css/exercise.css'>
 
-<br>
-<br>
+<h1 style="text-align: center;">
+    Get Fit, Stay Strong: 
+    <br>
+    Your Ultimate Guide to Exercise!
+</h1>
+
+<form class="exercise-search-container" method="get" asp-controller="Exercise" asp-action="Index" asp-route-search="@search">
+    <input value="@search" asp-for="@search" id="search-input" placeholder="Search Exercises" class="exercise-search" type="text"/>
+    <button class="exercise-search" type="submit">Search</button>
+</form>
+
+<div class="body-part-filter-container">
+    @foreach(var bodyPart in bodyParts)
+    {
+        <a asp-controller="Exercise" asp-action="FilterByBodyPart" asp-route-bodyPart="@bodyPart" asp-route-offset="@Model.Offset">
+            <div class="body-part">
+                <img class="body-part-icon" src="~/icons/gym.png"/>
+            </div>
+            <div class="body-part">@bodyPart</div>
+        </a>
+    }
+</div>
 
 <div class="container">
-    <div class="row">
-        @foreach (var exercise in Model)
+    <div class="row" id="exercises-list">
+        @if (!Model.Exercises.Any())
         {
-            <div class="col-md-4">
-                <div class="card mb-4 shadow-sm">
-                    <a asp-controller="Exercise" asp-action="Details" asp-route-name="@exercise.Name">
-                        <div class="card-body">
-                            <div style="color: Green; text-align: center;"><b>@exercise.Name</b></div>
-                            <br>
-                            <div style="color: black"><b>Level:</b> @exercise.Difficulty.ToString()</div>
-                            <div style="color: black"><b>Muscle:</b> @exercise.Muscle.ToString()</div>
-                            <div style="color: black"><b>Exercise Type:</b> @exercise.Type.ToString()</div>
-                            <div style="color: black"><b>Equipment:</b> @exercise.EquipmentName</div>
-                        </div>
-                    </a>
+            <div>Nothing was found!</div>
+        }
+        else
+        {
+            @foreach (var exercise in Model.Exercises)
+            {
+                <div id="exercise-list-item" class="col-md-4">
+                    <div id="exercise-card" class="card mb-4 shadow-sm">
+                        <a id="exercise-link" class="details-link" asp-controller="Exercise" asp-action="Details" asp-route-id="@exercise.Id">
+                            <div id="exercise-data" class="card-body all-items">
+                                <img src="@exercise.GifUrl" alt="@exercise.Name"/>
+                                <div id="exercise-info" class="tags">
+                                    <label id="body-part-field" class="exercise-body-part">@exercise.BodyPart</label>
+                                    <label id="target-field" class="exercise-target">@exercise.Target</label>
+                                </div>
+                                <div id="name-field" class="exercise-name"><b>@exercise.Name</b></div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-            </div>
+            }
         }
     </div>
 </div>
+
+<nav aria-label="Page navigation example">
+    <ul id="paginationUl" class="pagination justify-content-end">
+        @if (Model.Offset != 0)
+        {
+          <li class="page-item"><a class="page-link" href="?offset=@(Model.Offset - 1)">&lt;-</a></li>
+        }
+        <li class="page-item"><a class="page-link" href="?offset=1">1</a></li>
+        <li class="page-item"><a class="page-link" href="?offset=1">2</a></li>
+        <li class="page-item"><a class="page-link" href="?offset=2">3</a></li>
+        @if (Model.Offset != 1000)
+        {
+          <li class="page-item"><a class="page-link" href="?offset=@(Model.Offset + 1)">-></a></li>
+        }
+    </ul>
+</nav>
