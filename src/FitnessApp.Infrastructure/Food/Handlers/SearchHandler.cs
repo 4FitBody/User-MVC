@@ -9,7 +9,7 @@ using FitnessApp.Infrastructure.Food.Queries;
 using MediatR;
 using FitnessApp.Infrastructure.Food.Repositories.Base;
 
-public class SearchHandler : IRequestHandler<SearchQueries, IEnumerable<Food>>
+public class SearchHandler : IRequestHandler<SearchQueries, AllFood>
 {
     private readonly IFoodRepository repository;
 
@@ -22,11 +22,11 @@ public class SearchHandler : IRequestHandler<SearchQueries, IEnumerable<Food>>
         this.repository = repository;
     }
 
-    public async Task<IEnumerable<Food>> Handle(SearchQueries request, CancellationToken cancellationToken)
+    public async Task<AllFood> Handle(SearchQueries request, CancellationToken cancellationToken)
     {
-        var recipes = await repository.Search(request.query);
+        var recipes = await repository.Search(request.query, request.Offset);
 
-        foreach (var r in recipes)
+        foreach (var r in recipes.Foods)
         {
             r.Image = await imageRepository.GetImage(r.Title);
         }

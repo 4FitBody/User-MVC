@@ -7,4 +7,6 @@ public class AllFood
 {
     [JsonPropertyName("results")]
     public List<Food> Foods { get; set; }
+    
+    public int Offset { get; set; }
 }
