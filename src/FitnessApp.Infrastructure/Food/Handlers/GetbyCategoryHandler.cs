@@ -5,7 +5,7 @@ using FitnessApp.Infrastructure.Food.Queries;
 using MediatR;
 using FitnessApp.Infrastructure.Food.Repositories.Base;
 
-public class GetbyCategoryHandler : IRequestHandler<GetbyCategoryQueries, IEnumerable<Food>>
+public class GetbyCategoryHandler : IRequestHandler<GetbyCategoryQueries, AllFood>
 {
     private readonly IFoodRepository repository;
 
@@ -18,11 +18,11 @@ public class GetbyCategoryHandler : IRequestHandler<GetbyCategoryQueries, IEnume
         this.repository = repository;
     }
 
-    public async Task<IEnumerable<Food>> Handle(GetbyCategoryQueries request, CancellationToken cancellationToken)
+    public async Task<AllFood> Handle(GetbyCategoryQueries request, CancellationToken cancellationToken)
     {
-        var recipes = await repository.GetByCategory(request.FoodParams);
+        var recipes = await repository.GetByCategory(request.FoodParams,request.Offset);
 
-        foreach (var r in recipes)
+        foreach (var r in recipes.Foods)
         {
             r.Image = await imageRepository.GetImage(r.Title);
         }
