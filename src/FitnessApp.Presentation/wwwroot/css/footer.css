@@ -2,11 +2,6 @@
     position: relative;
 }
 
-.Footer-container > hr {
-    border: 1px solid var(--lightgray);
-
-}
-
 .footer {
     padding: 1rem 2rem;
     display: flex;

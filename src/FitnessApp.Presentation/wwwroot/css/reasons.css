@@ -1,8 +1,11 @@
 .Reasons {
-    padding: 0 2rem;
     display: flex;
     grid-template: 2rem;
-    margin-left: 80px;
+    justify-content: center;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 10%;
 }
 
 .left-r {
@@ -50,6 +53,7 @@
 
 .right-r > span {
     font-weight: bold;
+    font-size: 2rem;
     color: var(--orange);
 }
 
@@ -67,7 +71,7 @@
 
 .details-r > div {
     display: flex;
-    font-size: 1rem;
+    font-size: 1.5rem;
     gap: 1rem;
 }
 
