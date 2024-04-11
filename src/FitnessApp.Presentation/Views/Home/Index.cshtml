@@ -1,10 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+
+    var isAuthenticated = base.User.Identity.IsAuthenticated;
 }
 
 <div class="the-best-ad">
-    <div></div>
-    <span>The best fitness site in the city</span>
 </div>
 
 <div class="hero-text">
@@ -41,7 +41,14 @@
     </div>
 
     <div class="hero-buttons">
-        <a class="btn" asp-controller="Identity" asp-action="Login">Get Started</a>
+        @if (isAuthenticated)
+        {
+            <a class="btn" asp-controller="Identity" asp-action="Profile">Profile</a>
+        }
+        else 
+        {
+            <a class="btn" asp-controller="Identity" asp-action="Login">Get Started</a>
+        }
         <a class="btn" asp-controller="Home" asp-action="AboutUs">Learn More</a>
     </div>
 

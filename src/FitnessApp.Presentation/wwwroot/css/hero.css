@@ -17,11 +17,11 @@
     height: 720px !important;
     position: relative;
     background-color: var(--orange);
+    border-radius: 0 0 0 3rem;
 }
 
 .the-best-ad {
     margin-top: 4rem;
-    background-color: var(--animated-span-background-color);
     border-radius: 4rem;
     width: fit-content;
     padding: 20px 13px;

@@ -70,6 +70,7 @@ ol.instructions-list > li {
 
 h1 {
     margin-top: 60px;
+    color: white;
 }
 
 .exercise-search-container {
@@ -119,7 +120,7 @@ button.exercise-search {
     position: relative;
     width: 80px;
     height: 100px;
-    color: black;
+    color: white;
     margin: 0 15px;
     text-decoration: none !important;
 }

@@ -1,14 +1,10 @@
 namespace FitnessApp.Presentation.Controllers;
 
-using System.Runtime.InteropServices;
-using FitnessApp.Core.Foods;
 using FitnessApp.Core.Foods.Models;
 using FitnessApp.Infrastructure.Food.Queries;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Authorize]
 public class FoodController : Controller
 {
     private readonly ISender sender;

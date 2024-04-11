@@ -3,6 +3,7 @@
     flex-direction: column;
     gap: 2rem;
     padding: 0 2rem;
+    margin-bottom: 6rem;
 }
 
 .programs-header {
@@ -16,9 +17,9 @@
     font-style: italic;
 }
 
-div.program-categories {
+.program-categories {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 .category {
@@ -29,12 +30,8 @@ div.program-categories {
     gap: 1rem;
     color: white;
     justify-content: space-between;
-    margin-left: 40px;
+    margin-left: auto;
     width: 300px;
-}
-
-#first-category {
-    margin-left: 40px;
 }
 
 .category>:nth-child(1) {
@@ -65,5 +62,15 @@ div.program-categories {
 
 .category:hover {
     background: var(--planCard);
+    cursor: pointer;
+}
+
+.food:hover {
+    background: var(--foodCard) !important;
+    cursor: pointer;
+}
+
+.supplement:hover {
+    background: var(--supplementCard) !important;
     cursor: pointer;
 }

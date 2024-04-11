@@ -3,10 +3,8 @@ namespace FitnessApp.Presentation.Controllers;
 using FitnessApp.Infrastructure.Exercises.Queries;
 using FitnessApp.Presentation.ViewModels;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Authorize]
 public class ExerciseController : Controller
 {
     private readonly ISender sender;
