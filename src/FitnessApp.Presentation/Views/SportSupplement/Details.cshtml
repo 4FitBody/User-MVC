@@ -1,0 +1,32 @@
+@model SportSupplement
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<link rel='stylesheet' href='~/css/exercise.css'>
+
+<br>
+<br>
+
+<h1 style="text-align: center !important;">@Model.Name.ToUpper()</h1>
+
+<br>
+<br>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm" style="width: 1250px">
+                <div class="card-body description">
+                    <img src="@Model.ImageUrl"/>
+                    <div id="exercise-info" class="tags">
+                        <label id="body-part-field" class="exercise-body-part">@Model.ManufactureCountry</label>
+                        <label id="body-part-field" class="exercise-body-part">@Model.Quantity</label>
+                    </div>
+                    <div>@Model.Description</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

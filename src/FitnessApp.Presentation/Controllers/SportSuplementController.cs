@@ -1,14 +1,14 @@
 namespace FitnessApp.Presentation.Controllers;
 
-using FitnessApp.Infrastructure.Exercises.Queries;
+using FitnessApp.Infrastructure.SportSupplements.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-public class ExerciseController : Controller
+public class SportSupplementController : Controller
 {
     private readonly ISender sender;
 
-    public ExerciseController(ISender sender)
+    public SportSupplementController(ISender sender)
     {
         this.sender = sender;
     }
@@ -19,9 +19,9 @@ public class ExerciseController : Controller
     {
         var getAllQuery = new GetAllQuery();
 
-        var exercises = await this.sender.Send(getAllQuery);
+        var suplements = await this.sender.Send(getAllQuery);
 
-        return base.View(model: exercises);
+        return base.View(model: suplements);
     }
 
     [HttpGet]
@@ -29,8 +29,8 @@ public class ExerciseController : Controller
     {
         var getByIdQuery = new GetByIdQuery(id);
 
-        var exercise = await this.sender.Send(getByIdQuery);
+        var suplement = await this.sender.Send(getByIdQuery);
 
-        return base.View(model: exercise);
+        return base.View(model: suplement);
     }
 }

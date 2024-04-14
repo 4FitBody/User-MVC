@@ -1,33 +1,25 @@
 namespace FitnessApp.Infrastructure.Food.Handlers;
 
-using FitnessApp.Infrastructure.Food.Repositories.Base;
-using FitnessApp.Core.Foods;
 using FitnessApp.Infrastructure.Food.Queries;
+using FitnessApp.Core.Food.Models;
 using MediatR;
+using FitnessApp.Core.Food.Repositories;
 
-public class GetAllHandler : IRequestHandler<GetAllQueries, AllFood>
+public class GetAllHandler : IRequestHandler<GetAllQuery, IEnumerable<Food>>
 {
-    private readonly IFoodRepository repository;
+    private readonly IFoodRepository foodRepository;
 
-    private readonly IImageRepository imageRepository;
+    public GetAllHandler(IFoodRepository foodRepository) => this.foodRepository = foodRepository;
 
-    public GetAllHandler(IFoodRepository repository, IImageRepository imageRepository)
+    public async Task<IEnumerable<Food>?> Handle(GetAllQuery request, CancellationToken cancellationToken)
     {
-        this.imageRepository = imageRepository;
+        var food = await this.foodRepository.GetAllAsync();
 
-        this.repository = repository;
-    }
-
-    public async Task<AllFood> Handle(GetAllQueries request, CancellationToken cancellationToken)
-    {
-        var recipes = await repository.GetAll(request.Offset);
-
-        foreach (var r in recipes.Foods)
+        if (food is null)
         {
-            r.Image = await imageRepository.GetImage(r.Title);
+            return Enumerable.Empty<Food>();
         }
 
-        return recipes;
+        return food;
     }
-
 }
