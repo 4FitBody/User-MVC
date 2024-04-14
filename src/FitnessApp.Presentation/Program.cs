@@ -1,10 +1,13 @@
 using FitnessApp.Core.Exercises.Repositories;
-using FitnessApp.Core.Foods.Repositories;
+using FitnessApp.Core.Food.Repositories;
+using FitnessApp.Core.News.Repositories;
+using FitnessApp.Core.SportSupplements.Repositories;
 using FitnessApp.Core.Users.Models;
 using FitnessApp.Infrastructure.Data;
 using FitnessApp.Infrastructure.Exercises.Repositories;
 using FitnessApp.Infrastructure.Food.Repositories;
-using FitnessApp.Infrastructure.Food.Repositories.Base;
+using FitnessApp.Infrastructure.News.Repositories;
+using FitnessApp.Infrastructure.SportSupplements.Repositories;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,43 +22,13 @@ builder.Services.AddMediatR(configurations =>
     configurations.RegisterServicesFromAssembly(infrastructureAssembly);
 });
 
-builder.Services.AddSingleton<IExerciseRepository>(options =>
-{
-    var keyName = "ExerciseAPIKey";
+builder.Services.AddScoped<IExerciseRepository, ExerciseSqlRepository>();
 
-    var apiKey = builder.Configuration.GetSection(keyName).Get<string>();
+builder.Services.AddScoped<IFoodRepository, FoodSqlRepository>();
 
-    var host = "exercisedb.p.rapidapi.com";
+builder.Services.AddScoped<INewsRepository, NewsSqlRepository>();
 
-    return new ExerciseJsonRepository(apiKey!, host);
-});
-
-builder.Services.AddScoped<IFoodRepository>(provider =>
-{
-    const string key = "FoodAPIKey";
-
-    var APIkey = builder.Configuration.GetSection(key).Get<string>();
-
-    return new FoodRepository(APIkey!);
-});
-
-builder.Services.AddScoped<IVideoRepository>(provider=>
-{
-    const string key = "FoodAPIKey";
-
-    var APIkey = builder.Configuration.GetSection(key).Get<string>();
-
-    return new VideoRepository(APIkey);
-});
-
-builder.Services.AddScoped<IImageRepository>(provider =>
-{
-    const string key = "ImageAPIKey";
-
-    var APIkey = builder.Configuration.GetSection(key).Get<string>();
-
-    return new ImageRepository(APIkey!);
-});
+builder.Services.AddScoped<ISportSupplementRepository, SportSupplementRepository>();
 
 builder.Services.AddAuthorization();
 

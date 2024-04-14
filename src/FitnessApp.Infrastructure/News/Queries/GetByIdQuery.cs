@@ -1,9 +1,9 @@
-namespace FitnessApp.Infrastructure.Exercises.Queries;
+namespace FitnessApp.Infrastructure.News.Queries;
 
-using FitnessApp.Core.Exercises.Models;
+using FitnessApp.Core.News.Models;
 using MediatR;
 
-public class GetByIdQuery : IRequest<Exercise>
+public class GetByIdQuery : IRequest<News>
 {
     public int? Id { get; set; }
 

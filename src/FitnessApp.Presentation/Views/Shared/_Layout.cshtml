@@ -37,10 +37,16 @@
                             @if(isAuthenticated)
                             {
                                 <li>
-                                    <a asp-controller="Food" asp-action="Get">Food</a>
+                                    <a asp-controller="Food" asp-action="Index">Food</a>
                                 </li>
                                 <li>
                                     <a asp-controller="Exercise" asp-action="Index">Exercises</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="News" asp-action="Index">News</a>
+                                </li>
+                                <li>
+                                    <a asp-controller="SportSupplement" asp-action="Index">Sport supplements</a>
                                 </li>
                                 <li>
                                     <a asp-controller="Identity" asp-action="Profile">Profile</a>
@@ -81,6 +87,8 @@
 
         @if(isMainPage)
         {
+            <partial name="_News" />
+
             <partial name="_ExercisePrograms" />
 
             <partial name="_NutritionPrograms" />
