@@ -1,7 +1,7 @@
 @{
     ViewData["Title"] = "Login";
 
-    string email = string.Empty;
+    string username = string.Empty;
     string password = string.Empty;
 }
 
@@ -18,8 +18,8 @@
         
         <form asp-action="Login" method="post">
             <div class="input-box">
-                <input required asp-for="@email" type="email" class="input-field" required>
-                <label asp-for="@email" class="label">Email</label>
+                <input required asp-for="@username" type="text" class="input-field" required>
+                <label asp-for="@username" class="label">Login</label>
                 <i class="bx bx-user icon"></i>
             </div>
 

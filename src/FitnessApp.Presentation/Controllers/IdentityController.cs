@@ -93,9 +93,19 @@ public class IdentityController : Controller
     {
         try
         {
-            var user = await this.userManager.FindByEmailAsync(loginDto.Email!);
+            var result = await signInManager.PasswordSignInAsync(loginDto.UserName, loginDto.Password, true, true);
 
-            await this.signInManager.PasswordSignInAsync(user!, loginDto.Password!, true, true);
+            if (result.Succeeded)
+            {
+                return base.RedirectToAction(actionName: "Index", controllerName: "Home");
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Invalid Login or Password.");
+
+                return base.View("Login");
+            }
+
         }
         catch (Exception exception)
         {
