@@ -23,4 +23,14 @@ public class FoodController : Controller
 
         return base.View(model: food);
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetById(int id)
+    {
+        var getByIdQuery = new GetByIdQuery(id);
+
+        var food = await this.sender.Send(getByIdQuery);
+
+        return View(food);
+    }
 }
